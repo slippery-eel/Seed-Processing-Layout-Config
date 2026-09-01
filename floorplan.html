@@ -1,0 +1,2234 @@
+<meta charset="utf-8" />
+<title>Seed Processing Facility — Layout Study</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root{
+    --bg:#ece4d1;
+    --panel:#f7f1e3;
+    --panel-2:#efe6d2;
+    --ink:#1c1712;
+    --muted:#6b5f4d;
+    --line:#cabf9f;
+    --line-strong:#1c1712;
+    --accent:#b5502e;
+    --accent-ink:#f7f1e3;
+    --accent-2:#5c6b3f;
+    --wall-edge:#b5502e;
+    --room-bedroom:#BF9675;
+    --room-bath:#f7f4ee;
+    --room-closet:#e6dcc0;
+    --room-balcony:#d3d3d3;
+    --floor-tile:#f4e1c1;
+    --floor-living:#BF9675;
+    --wall:#382d20;
+    --counter:#f6f1e2;
+    --heater:#c2b28c;
+    --stove:#2b2622;
+    --fridge:#b3a17c;
+    --sink:#fbf7ec;
+    --glassdoor:#5bb8e0;
+    --window:#8fd6f2;
+    --outlet:#ff2f92;
+    --outlet-edit:#ffcc00;
+    --grid-line:rgba(28,23,18,0.08);
+    --furniture-fill:#f7f1e3;
+    --furniture-stroke:#1c1712;
+    --shadow:0 1px 2px rgba(28,23,18,0.10),0 8px 20px rgba(28,23,18,0.14);
+    --font-display: ui-sans-serif, "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --font-body: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#121110;
+      --panel:#1b1815;
+      --panel-2:#221e19;
+      --ink:#f2ead8;
+      --muted:#9c8f7a;
+      --line:#3a332a;
+      --line-strong:#e8dcc0;
+      --accent:#c1552c;
+      --accent-ink:#1b1815;
+      --accent-2:#7a8551;
+      --wall-edge:#e8dcc0;
+      --room-bedroom:#BF9675;
+      --room-bath:#f7f4ee;
+      --room-closet:#201a14;
+      --room-balcony:#d3d3d3;
+      --floor-tile:#f4e1c1;
+      --floor-living:#BF9675;
+      --wall:#1c1815;
+      --counter:#e4ddc8;
+      --heater:#2e2620;
+      --stove:#161310;
+      --fridge:#262019;
+      --sink:#ece2c9;
+      --glassdoor:#5bb8e0;
+      --window:#8fd6f2;
+      --outlet:#ff2f92;
+      --outlet-edit:#ffcc00;
+      --grid-line:rgba(232,220,192,0.05);
+      --furniture-fill:#1b1815;
+      --furniture-stroke:#0d0b09;
+      --shadow:0 1px 2px rgba(0,0,0,0.45),0 10px 24px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#121110; --panel:#1b1815; --panel-2:#221e19; --ink:#f2ead8; --muted:#9c8f7a;
+    --line:#3a332a; --line-strong:#e8dcc0; --accent:#c1552c; --accent-ink:#1b1815; --accent-2:#7a8551;
+    --wall-edge:#e8dcc0;
+    --room-bedroom:#BF9675; --room-bath:#f7f4ee; --room-closet:#201a14; --room-balcony:#d3d3d3;
+    --floor-tile:#f4e1c1; --floor-living:#BF9675; --wall:#1c1815;
+    --counter:#e4ddc8; --heater:#2e2620; --stove:#161310; --fridge:#262019; --sink:#ece2c9; --glassdoor:#5bb8e0; --window:#8fd6f2; --outlet:#ff2f92; --outlet-edit:#ffcc00;
+    --grid-line:rgba(232,220,192,0.05); --furniture-fill:#1b1815; --furniture-stroke:#0d0b09;
+    --shadow:0 1px 2px rgba(0,0,0,0.45),0 10px 24px rgba(0,0,0,0.55);
+  }
+  :root[data-theme="light"]{
+    --bg:#ece4d1; --panel:#f7f1e3; --panel-2:#efe6d2; --ink:#1c1712; --muted:#6b5f4d;
+    --line:#cabf9f; --line-strong:#1c1712; --accent:#b5502e; --accent-ink:#f7f1e3; --accent-2:#5c6b3f;
+    --wall-edge:#b5502e;
+    --room-bedroom:#BF9675; --room-bath:#f7f4ee; --room-closet:#e6dcc0; --room-balcony:#d3d3d3;
+    --floor-tile:#f4e1c1; --floor-living:#BF9675; --wall:#382d20;
+    --counter:#f6f1e2; --heater:#c2b28c; --stove:#2b2622; --fridge:#b3a17c; --sink:#fbf7ec; --glassdoor:#5bb8e0; --window:#8fd6f2; --outlet:#ff2f92; --outlet-edit:#ffcc00;
+    --grid-line:rgba(28,23,18,0.08); --furniture-fill:#f7f1e3; --furniture-stroke:#1c1712;
+    --shadow:0 1px 2px rgba(28,23,18,0.10),0 8px 20px rgba(28,23,18,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:1380px;
+    margin:0 auto;
+    padding:28px 20px 60px;
+  }
+
+  /* ---- Title block ---- */
+  .titleblock{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px 28px;
+    align-items:end;
+    padding:18px 22px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    margin-bottom:18px;
+  }
+  .titleblock h1{
+    font-family:var(--font-display);
+    font-weight:600;
+    letter-spacing:0.015em;
+    font-size:clamp(22px,3vw,30px);
+    margin:0 0 10px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--accent);
+    text-wrap:balance;
+  }
+  .titleblock .meta{
+    display:flex;
+    font-family:var(--font-mono);
+    font-variant-numeric:tabular-nums;
+    font-size:12.5px;
+    color:var(--muted);
+    border-top:1px solid var(--accent);
+    padding-top:10px;
+    grid-column:1/-1;
+    flex-wrap:wrap;
+  }
+  .titleblock .meta b{color:var(--ink); font-weight:600;}
+  .meta-item{
+    display:flex; flex-direction:column; gap:2px;
+    padding:0 20px;
+    border-left:1px solid var(--line);
+  }
+  .meta-item:first-child{padding-left:0; border-left:none;}
+  .meta-item span:first-child{
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    font-size:10px;
+    color:var(--muted);
+  }
+
+  /* ---- toolbar ---- */
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  button{
+    font-family:var(--font-body);
+    font-size:13px;
+    font-weight:600;
+    border:1px solid var(--line-strong);
+    background:var(--panel);
+    color:var(--ink);
+    padding:8px 14px;
+    cursor:pointer;
+    transition:background .12s ease, color .12s ease, transform .06s ease;
+  }
+  button:hover{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
+  button:active{transform:translateY(1px);}
+  button:focus-visible, .furniture-item:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+  button.ghost{background:transparent;}
+  .toolbar .hint{
+    font-size:12.5px;
+    color:var(--muted);
+    margin-left:auto;
+  }
+  .toolbar .hint kbd{
+    font-family:var(--font-mono);
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    padding:1px 5px;
+    font-size:11px;
+  }
+
+  /* ---- layout: stage + schedule ---- */
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 360px;
+    gap:18px;
+    align-items:start;
+  }
+  @media (max-width:1060px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  .stage-frame{
+    background:var(--panel);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    overflow:auto;
+    position:relative;
+    display:flex;
+    justify-content:flex-start;
+  }
+  #stage{
+    position:relative;
+    display:block;
+    flex-shrink:0;
+    transform-origin:0 0;
+  }
+  .zoom-ctl{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--muted);}
+  .zoom-ctl input[type=range]{width:150px;}
+  .zoom-ctl .zval{font-family:var(--font-mono); min-width:3.2em;}
+  #stage svg{display:block;}
+  #labelsSvg{
+    position:absolute;
+    top:0;
+    left:0;
+    /* deliberately no z-index (stays in the auto/0 paint tier), placed after #furnitureLayer
+       in the DOM -- that alone makes it paint above equipment (same tier, later DOM order
+       wins). */
+    pointer-events:none;
+    opacity:0.9;
+  }
+  .zone-sub{
+    font-family:var(--font-mono);
+    fill:var(--muted);
+    paint-order:stroke;
+    stroke:var(--panel);
+    stroke-width:3px;
+    stroke-linejoin:round;
+  }
+
+  .room-label, .room-sub, .zone-label, .fixture-label{
+    paint-order:stroke;
+    stroke:var(--panel);
+    stroke-width:2.5px;
+    stroke-linejoin:round;
+  }
+  .room-label{
+    font-family:var(--font-display);
+    fill:var(--ink);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.09em;
+  }
+  .room-sub{
+    font-family:var(--font-mono);
+    fill:var(--muted);
+  }
+  .zone-label{
+    font-family:var(--font-display);
+    fill:var(--muted);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    opacity:0.75;
+  }
+  .fixture-label{
+    font-family:var(--font-mono);
+    fill:var(--muted);
+  }
+  .tag-label{
+    font-family:var(--font-mono);
+    fill:var(--muted);
+  }
+
+  /* ---- zones & areas (editable rectangles) ---- */
+  /* areaLayer paints below furnitureLayer (both absolute, DOM order decides); each layer is
+     click-through except for its own items, so empty space falls through to #stage (deselect). */
+  #areaLayer{position:absolute; inset:0; pointer-events:none;}
+  #furnitureLayer{position:absolute; inset:0; pointer-events:none;}
+  .area-item{
+    position:absolute;
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:2px solid;
+    cursor:grab;
+    touch-action:none;
+    user-select:none;
+    pointer-events:auto;
+  }
+  .area-item:active{cursor:grabbing;}
+  .area-item.kind-area{border-style:dashed;}
+  .area-item.selected{outline:2px dashed var(--accent); outline-offset:2px; z-index:15;}
+  .area-label{
+    position:absolute;
+    top:3px; left:6px;
+    pointer-events:none;
+    text-align:left;
+    font-family:var(--font-display);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    font-size:10px;
+    line-height:1.2;
+    color:var(--ink);
+    text-shadow:0 0 3px var(--panel),0 0 3px var(--panel),0 0 3px var(--panel);
+    white-space:normal;
+    max-width:calc(100% - 12px);
+  }
+  .area-label .al-id{font-size:12px;}
+  .area-label .sf{display:block; font-family:var(--font-mono); font-weight:400; font-size:8px; color:var(--muted);}
+  .resize-handle{
+    position:absolute;
+    width:12px;height:12px;
+    margin:-7px;
+    background:var(--accent);
+    border:2px solid var(--panel);
+    border-radius:2px;
+    display:none;
+    z-index:16;
+  }
+  .area-item.selected .resize-handle{display:block;}
+  .resize-handle.nw{top:0;left:0;cursor:nwse-resize;}
+  .resize-handle.ne{top:0;left:100%;cursor:nesw-resize;}
+  .resize-handle.sw{top:100%;left:0;cursor:nesw-resize;}
+  .resize-handle.se{top:100%;left:100%;cursor:nwse-resize;}
+  .fixture-item{
+    position:absolute;
+    cursor:grab;
+    touch-action:none;
+    user-select:none;
+    pointer-events:auto;
+  }
+  .fixture-item:active{cursor:grabbing;}
+  .fixture-item.point .dot{
+    position:absolute; width:8px; height:8px; margin:-4px 0 0 -4px;
+    border-radius:50%; border:1.5px solid var(--panel);
+  }
+  .fixture-item.line .bar{position:absolute; inset:0; border-radius:2px;}
+  .fixture-item .flbl{
+    position:absolute;
+    left:50%; bottom:100%;
+    transform:translateX(-50%);
+    margin-bottom:3px;
+    font-family:var(--font-mono); font-size:8px; color:var(--muted);
+    white-space:normal; text-align:center;
+    width:max-content; max-width:92px;
+    pointer-events:none;
+    text-shadow:0 0 3px var(--panel),0 0 3px var(--panel),0 0 3px var(--panel);
+  }
+  .fixture-item.selected .dot, .fixture-item.selected .bar{outline:2px dashed var(--accent); outline-offset:2px;}
+  .fixture-list{list-style:none; margin:6px 0 0; padding:0; font-size:11.5px; color:var(--ink);}
+  .fixture-list li{display:flex; align-items:center; gap:7px; margin:2px 0; cursor:pointer; padding:2px 3px;}
+  .fixture-list li:hover{background:var(--panel-2);}
+  .fixture-list li.active{background:var(--accent); color:var(--accent-ink);}
+  .fixture-list .sw{width:11px; height:11px; flex:0 0 auto; border:1px solid var(--line-strong); border-radius:2px;}
+
+  /* ---- furniture ---- */
+  .furniture-item{
+    position:absolute;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--furniture-fill);
+    border:1.5px solid var(--furniture-stroke);
+    cursor:grab;
+    touch-action:none;
+    user-select:none;
+    pointer-events:auto;
+    box-shadow:0 1px 3px rgba(0,0,0,0.18);
+  }
+  .furniture-item.circle{border-radius:50%;}
+  .furniture-item.rounded{border-radius:6px;}
+  .furniture-item:active{cursor:grabbing;}
+  .furniture-item .lbl{
+    position:relative;
+    z-index:5;
+    font-family:var(--font-mono);
+    font-size:10px;
+    line-height:1.15;
+    text-align:center;
+    color:var(--line-strong);
+    pointer-events:none;
+    white-space:normal;
+    overflow-wrap:break-word;
+  }
+  .furniture-item .lbl.tagnum{
+    font-weight:700;
+    font-size:12px;
+    white-space:nowrap;
+  }
+  .furniture-item .lbl-below{
+    position:absolute;
+    left:50%;
+    top:100%;
+    width:66px;                /* fixed so text wraps at words, not per-character */
+    transform:translateX(-50%);
+    z-index:6;
+    font-family:var(--font-mono);
+    font-size:8px;
+    line-height:1.12;
+    text-align:center;
+    color:var(--ink);
+    pointer-events:none;
+    white-space:normal;
+    overflow-wrap:break-word;
+    text-shadow:0 0 3px var(--panel),0 0 3px var(--panel),0 0 3px var(--panel),0 0 3px var(--panel);
+  }
+  .furniture-item.selected{
+    outline:2px dashed var(--accent);
+    outline-offset:2px;
+    z-index:20;
+  }
+  .furniture-item .handle{
+    position:absolute;
+    top:-22px;
+    left:50%;
+    width:14px;
+    height:14px;
+    margin-left:-7px;
+    border-radius:50%;
+    background:var(--accent);
+    border:2px solid var(--furniture-fill);
+    cursor:grab;
+    display:none;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  .furniture-item.selected .handle{display:block;}
+  .furniture-item .handle::after{
+    content:"";
+    position:absolute;
+    top:12px;
+    left:5px;
+    width:2px;
+    height:12px;
+    background:var(--accent);
+  }
+  .furniture-item .wheel{
+    position:absolute;
+    width:5px;height:5px;border-radius:50%;
+    background:var(--line-strong);
+  }
+  .tv-screen{
+    position:absolute;
+    background:var(--line-strong);
+    opacity:0.85;
+  }
+  .lamp-bulb{
+    position:absolute;
+    width:35%;height:35%;
+    border-radius:50%;
+    background:var(--accent-2);
+    opacity:0.7;
+  }
+  .shelf-line{
+    position:absolute;
+    left:8%;right:8%;
+    height:1px;
+    background:var(--furniture-stroke);
+    opacity:0.55;
+  }
+  .pillow{
+    position:absolute;
+    width:22%; height:14%;
+    border-radius:3px;
+    background:rgba(255,255,255,0.55);
+  }
+
+  /* ---- schedule panel ---- */
+  .schedule{
+    background:var(--panel);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:16px;
+    position:sticky;
+    top:16px;
+  }
+  .schedule h2{
+    font-family:var(--font-display);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin:0 0 4px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:10px;
+  }
+  table.sched{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12.5px;
+  }
+  table.sched th{
+    text-align:left;
+    font-family:var(--font-display);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-size:10.5px;
+    color:var(--muted);
+    padding:6px 4px;
+    border-bottom:1px solid var(--line);
+  }
+  table.sched td{
+    padding:7px 4px;
+    border-bottom:1px solid var(--grid-line);
+    font-family:var(--font-mono);
+    font-variant-numeric:tabular-nums;
+    vertical-align:middle;
+  }
+  table.sched tr{cursor:pointer;}
+  table.sched tr:hover td{background:var(--panel-2);}
+  table.sched tr.active td{background:var(--accent); color:var(--accent-ink);}
+  table.sched tr.zone-hdr{cursor:default;}
+  table.sched tr.zone-hdr td{
+    background:var(--panel-2);
+    font-family:var(--font-display);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--muted);
+    padding-top:10px;
+  }
+  table.sched tr.zone-hdr:hover td{background:var(--panel-2);}
+  table.sched tr.zone-hdr .sw{
+    display:inline-block; width:10px; height:10px; border-radius:2px;
+    border:1px solid var(--line-strong); margin-right:6px; vertical-align:-1px;
+  }
+  .est-badge{
+    display:inline-block; margin-left:6px; padding:0 4px;
+    font-family:var(--font-body); font-size:9px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.04em;
+    background:var(--line); color:var(--ink); border-radius:3px;
+    vertical-align:1px;
+  }
+  .swatch{
+    width:12px;height:12px;
+    display:inline-block;
+    border:1px solid var(--furniture-stroke);
+    margin-right:6px;
+    vertical-align:-1px;
+    padding:0;
+    border-radius:1px;
+    cursor:pointer;
+  }
+  .swatch:hover, .swatch:focus-visible{outline:2px solid var(--accent); outline-offset:1px;}
+  .color-popover{
+    position:fixed;
+    z-index:100;
+    display:none;
+    background:var(--panel);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    padding:8px;
+    grid-template-columns:repeat(8,20px);
+    gap:6px;
+  }
+  .color-popover.show{display:grid;}
+  .color-popover .chip{
+    width:20px;height:20px;
+    padding:0;
+    border:1.5px solid var(--line);
+    border-radius:1px;
+    cursor:pointer;
+  }
+  .color-popover .chip:hover{border-color:var(--line-strong);}
+  .color-popover .chip.active{outline:2px solid var(--accent); outline-offset:1px;}
+  .dim-input{
+    width:48px;
+    font-family:var(--font-mono);
+    font-variant-numeric:tabular-nums;
+    font-size:12px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--ink);
+    padding:3px 4px;
+    text-align:right;
+  }
+  .dim-x{margin:0 2px; color:var(--muted);}
+  .dim-input.rot-input{width:42px;}
+  .dim-input:focus{outline:none; border-color:var(--accent);}
+  .dirty-indicator{
+    font-size:12px;
+    color:var(--outlet-edit);
+    display:none;
+    align-items:center;
+    gap:6px;
+    font-weight:600;
+  }
+  .dirty-indicator.show{display:flex;}
+  #slotSelect{
+    font-family:var(--font-body);
+    font-size:13px;
+    background:var(--panel);
+    color:var(--ink);
+    border:1px solid var(--line-strong);
+    padding:7px 10px;
+  }
+  .legend-wrap{margin:16px 0 0;}
+  .legend-wrap h3{
+    font-family:var(--font-display);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--muted);
+    margin:0 0 8px;
+  }
+  .legend-list{list-style:none; margin:0; padding:0; font-size:12px; color:var(--ink); line-height:1.7;}
+  .legend-list li{display:flex; align-items:center; gap:8px; margin:3px 0;}
+  .legend-list .sw{
+    width:13px; height:13px; flex:0 0 auto;
+    border:1px solid var(--line-strong);
+    border-radius:2px;
+  }
+  .legend-list .lz-name{font-weight:600;}
+  .legend-list .lz-sf{margin-left:auto; font-family:var(--font-mono); color:var(--muted); font-size:11px;}
+  .sqft-readout{
+    margin-top:12px;
+    padding-top:10px;
+    border-top:1px solid var(--line);
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--muted);
+    display:flex;
+    justify-content:space-between;
+  }
+  .sqft-readout b{color:var(--ink);}
+  button.active{background:var(--accent-2); color:#fff; border-color:var(--accent-2);}
+</style>
+
+<div class="wrap">
+
+  <div class="titleblock">
+    <div>
+      <h1>Seed Processing Facility — Layout Study</h1>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button id="resetBtn">Reset Layout</button>
+    <button id="clearanceBtn" class="ghost">Clearance Overlay</button>
+    <button id="labelModeBtn" class="ghost" title="Toggle the decluttered view used for screenshots / PNG export">Presentation</button>
+    <button id="exportPngBtn">Export PNG</button>
+    <span class="zoom-ctl">Zoom <input type="range" id="zoomSlider" min="0.5" max="3" step="0.1" value="1"><span class="zval" id="zoomVal">1.0×</span></span>
+    <span class="hint">Drag to move · click to select · drag <kbd>●</kbd> ring to rotate · <kbd>R</kbd> rotate 15° · arrows nudge · <kbd>Esc</kbd> deselect</span>
+    <span class="sun-note" id="exportNote"></span>
+  </div>
+
+  <div class="toolbar">
+    <span class="hint" style="margin-left:0;">Layouts</span>
+    <select id="slotSelect" title="Saved layouts"></select>
+    <button id="saveSlotBtn">Save</button>
+    <button id="saveAsSlotBtn" class="ghost">Save As New</button>
+    <button id="deleteSlotBtn" class="ghost">Delete</button>
+    <span class="dirty-indicator" id="dirtyIndicator">● Unsaved changes</span>
+    <span class="hint">Equipment dimensions (below) are global — changing a size applies to every saved layout</span>
+  </div>
+
+  <div class="layout">
+    <div class="stage-frame">
+      <div id="stage">
+        <svg id="floorplanSvg"></svg>
+        <div id="areaLayer"></div>
+        <div id="furnitureLayer"></div>
+        <svg id="labelsSvg"></svg>
+      </div>
+    </div>
+
+    <div class="schedule">
+      <h2>Zones &amp; Areas</h2>
+      <table class="sched">
+        <thead><tr><th>Area</th><th>W×H (ft)</th></tr></thead>
+        <tbody id="areaSchedBody"></tbody>
+      </table>
+      <ul class="fixture-list" id="fixtureList"></ul>
+      <h2 style="margin-top:22px;">Equipment Schedule</h2>
+      <table class="sched">
+        <thead><tr><th>Item</th><th>Size (in)</th><th>Rot</th></tr></thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+      <div class="color-popover" id="colorPopover"></div>
+      <div class="legend-wrap">
+        <h3>Zones</h3>
+        <ul class="legend-list" id="zoneLegend"></ul>
+        <div class="sqft-readout" id="sqftReadout"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var SCALE = 5;         // px per foot (site is ~180×140 ft)
+  var PAD = 40;          // px canvas padding
+  var viewZoom = 1;      // CSS zoom applied to #stage (see the Zoom control)
+  // "detailed" = dense editing view (full names on every box);
+  // "present"  = decluttered view for screenshots/export (short zone tags in the rect corner,
+  //              numbered machines with the name wrapped below, short fixture tags above marker).
+  var LABELMODE_KEY = "seed-facility-labelmode";
+  var labelMode = "detailed";
+  try { if(window.localStorage.getItem(LABELMODE_KEY) === "present") labelMode = "present"; } catch(e){}
+  function X(ft){ return PAD + ft*SCALE; }
+  function Y(ft){ return PAD + ft*SCALE; }
+  function FT(n){ return n*SCALE; }
+  var PX_PER_IN = SCALE/12;
+
+  // ---------- site geometry (feet) ----------
+  var WALL_T = 4; // px perimeter wall stroke at this scale
+
+  // Right-angle trapezoid: the right angle is on the LEFT (left edge vertical).
+  //   top parallel edge 65 ft · bottom parallel edge 180 ft · vertical height 140 ft
+  var SITE_W = 180, SITE_H = 140;
+  var SITE_POLY = [[0,0],[65,0],[SITE_W,SITE_H],[0,SITE_H]];
+  // x of the slanted right edge at a given y (0..140)
+  function siteRightX(y){ return 65 + (SITE_W - 65) * (y / SITE_H); }
+
+  function polyArea(poly){ // shoelace, sq ft
+    var a = 0;
+    for(var i=0;i<poly.length;i++){
+      var p = poly[i], q = poly[(i+1)%poly.length];
+      a += p[0]*q[1] - q[0]*p[1];
+    }
+    return Math.abs(a) / 2;
+  }
+  function polyCentroid(poly){
+    var sx = 0, sy = 0;
+    poly.forEach(function(p){ sx += p[0]; sy += p[1]; });
+    return [sx/poly.length, sy/poly.length];
+  }
+  function polySegments(poly){
+    var segs = [];
+    for(var i=0;i<poly.length;i++){
+      var a=poly[i], b=poly[(i+1)%poly.length];
+      segs.push({x1:a[0],y1:a[1],x2:b[0],y2:b[1]});
+    }
+    return segs;
+  }
+
+  // ---------- editable areas: hygiene/hazard zones + boundary areas ----------
+  // Every entry is a draggable / resizable rectangle (see the unified item model below).
+  // x/y = top-left in FEET, w/h in FEET. `kind:"zone"` carries the doc's Config-1 `target` sqft.
+  // Process order (no backtrack): D1 -> A -> B1 -> D2 -> C -> B2 -> E, B1 & B2 flanking C.
+  var FIX_DOOR = "#b5502e", FIX_WATER = "#5bb8e0", FIX_DUST = "#c9a24b",
+      FIX_SAFETY = "#d64545", FIX_ANTE = "#5c6b3f", FIX_RACK = "#8a8f98";
+  var AREAS = [
+    // --- zones ---  (`short` = compact label used in Presentation mode)
+    {id:"A",  kind:"zone", name:"WET / CHEMICAL", short:"WET", note:"Prefab pole barn · trench drains · fume extraction · uninsulated",
+     target:3000, color:"#3b7bbf", x:3,  y:3,   w:60,  h:34},
+    {id:"D1", kind:"zone", name:"BERRY INTAKE", short:"INTAKE", note:"Climate-controlled 55–85°F · NOT refrigerated",
+     target:400,  color:"#d8c27a", x:3,  y:3,   w:18,  h:14},
+    {id:"B1", kind:"zone", name:"DRY & DUSTY — PRE-PRIMING", short:"DRY / DUSTY 1", note:"Air-screen · grading · colour sort · air column · NFPA 61/660",
+     target:1400, color:"#c79a4b", x:3,  y:42,  w:30,  h:54},
+    {id:"D2", kind:"zone", name:"SEED-HOLDING COLD ROOM", short:"COLD ROOM", note:"Real insulated cold room · pre-priming dry-seed lots",
+     target:330,  color:"#6bb8c7", x:38, y:42,  w:22,  h:22},
+    {id:"C",  kind:"zone", name:"CLEAN LAB & PRIMING", short:"CLEAN LAB", note:"Priming · re-dry · water-activity QA · off-line germ chambers · controlled RH",
+     target:1500, color:"#5c8a5c", x:44, y:68,  w:48,  h:44},
+    {id:"B2", kind:"zone", name:"DRY & DUSTY — PELLETING", short:"DRY / DUSTY 2", note:"Powder blender · pelleting pan · pellet dryer · dry sizer · 2nd NFPA dust drop",
+     target:1050, color:"#c1552c", x:98, y:80,  w:32,  h:32},
+    {id:"E",  kind:"zone", name:"FINISHING / QA / DISPATCH", short:"FINISHING", note:"Count / weigh / package · final QA · retain samples · FG staging",
+     target:1330, color:"#8a5c8a", x:3,  y:116, w:120, h:21},
+    {id:"OFF", kind:"zone", name:"OFFICE / GOWNING", short:"OFFICE", note:"Gowning change + site office",
+     target:390,  color:"#8a8f98", x:126,y:114, w:30,  h:22},
+    // --- boundary / support areas (no target) ---
+    {id:"anteAB1", kind:"area", name:"A→B1 ANTEROOM", short:"ANTEROOM", note:"boot change · wet outerwear off · handwash",
+     color:FIX_ANTE, x:8,  y:37, w:16, h:7},
+    {id:"anteD2C", kind:"area", name:"D2→C BENCH GOWNING ANTEROOM", short:"GOWNING", note:"sit-and-swing footwear change · sample pull",
+     color:FIX_ANTE, x:44, y:64, w:16, h:4},
+    {id:"passCB2", kind:"area", name:"C→B2 TWO-DOOR PASS BOX", short:"PASS BOX", note:"primed lots cross without a full PPE change",
+     color:FIX_ANTE, x:92, y:82, w:8,  h:6},
+    {id:"bufIntake", kind:"area", name:"INTAKE BUFFER", short:"BUFFER", note:"berry buffer racking",
+     color:FIX_RACK, x:50, y:7,  w:11, h:5},
+    {id:"bufDried", kind:"area", name:"DRIED-LOT BUFFER", short:"BUFFER", note:"post-dryer holding",
+     color:FIX_RACK, x:5,  y:29, w:14, h:3.5},
+    {id:"wipB1C", kind:"area", name:"WIP RACK B1↔C", short:"WIP", note:"work-in-process racking",
+     color:FIX_RACK, x:35, y:72, w:4,  h:20},
+    {id:"wipCB2", kind:"area", name:"WIP RACK C↔B2", short:"WIP", note:"work-in-process racking",
+     color:FIX_RACK, x:94, y:74, w:4,  h:26}
+  ];
+  var ZONE_BY_ID = {};
+  AREAS.forEach(function(a){ if(a.kind === "zone") ZONE_BY_ID[a.id] = a; });
+  function zoneColor(id){ return (ZONE_BY_ID[id] && ZONE_BY_ID[id].color) || "#8a8f98"; }
+
+  // ---------- fixtures: point + line features (draggable, move-only) ----------
+  // fx: "point" | "hline" | "vline"; cx/cy = centre in FEET; len (ft) for lines.
+  var FIXTURES = [
+    {id:"rollupDoor",  kind:"fixture", fx:"hline", len:18, cx:61,  cy:140, label:"ROLL-UP DOOR (shared in / out)", short:"ROLL-UP DOOR", color:FIX_DOOR},
+    {id:"toteDoor",    kind:"fixture", fx:"vline", len:6,  cx:3,   cy:23,  label:"TOTE DOOR (berries in)", short:"TOTE DOOR", color:FIX_DOOR},
+    {id:"cartB1D2",    kind:"fixture", fx:"hline", len:6,  cx:37,  cy:50,  label:"B1→D2 STRIP-CURTAIN CART DOOR", short:"CART DOOR", color:FIX_DOOR},
+    {id:"cartB2E",     kind:"fixture", fx:"hline", len:14, cx:111, cy:114, label:"B2→E CART / PALLET DOOR", short:"CART DOOR", color:FIX_DOOR},
+    {id:"trenchDrain", kind:"fixture", fx:"hline", len:50, cx:40,  cy:31,  label:"TRENCH DRAINS", short:"TRENCH DRAIN", color:FIX_WATER, dashed:true},
+    {id:"fumeExhaust", kind:"fixture", fx:"point", cx:85,  cy:6,   label:"FUME EXHAUST", short:"FUME EXH.", color:FIX_DUST},
+    {id:"eyewash",     kind:"fixture", fx:"point", cx:7,   cy:33,  label:"EYEWASH / SAFETY SHOWER", short:"EYEWASH", color:FIX_SAFETY},
+    {id:"dustB1",      kind:"fixture", fx:"point", cx:31,  cy:47,  label:"DUST DROP", short:"DUST DROP", color:FIX_DUST},
+    {id:"dustB2",      kind:"fixture", fx:"point", cx:138, cy:72,  label:"DUST DROP", short:"DUST DROP", color:FIX_DUST},
+    {id:"sinkAB1",     kind:"fixture", fx:"point", cx:16,  cy:40,  label:"HANDWASH SINK", short:"SINK", color:FIX_WATER},
+    {id:"sinkE",       kind:"fixture", fx:"point", cx:8,   cy:134, label:"HANDWASH SINK", short:"SINK", color:FIX_WATER}
+  ];
+
+  // ---------- glyph helper ----------
+  function line(x1,y1,x2,y2,color,w,extra){
+    return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+color+'" stroke-width="'+w+'"'+(extra||"")+'/>';
+  }
+  function polyPts(poly){ return poly.map(function(p){ return X(p[0])+","+Y(p[1]); }).join(" "); }
+
+  // ---------- build SVG ----------
+  var svgW = X(SITE_W) + PAD, svgH = Y(SITE_H) + PAD;
+  var svg = document.getElementById("floorplanSvg");
+  svg.setAttribute("width", svgW);
+  svg.setAttribute("height", svgH);
+  svg.setAttribute("viewBox", "0 0 "+svgW+" "+svgH);
+  document.getElementById("stage").style.width = svgW+"px";
+  document.getElementById("stage").style.height = svgH+"px";
+  var labelsSvg = document.getElementById("labelsSvg");
+  labelsSvg.setAttribute("width", svgW);
+  labelsSvg.setAttribute("height", svgH);
+  labelsSvg.setAttribute("viewBox", "0 0 "+svgW+" "+svgH);
+
+  var GRID_FT = 10;        // minor grid every 10 ft
+  var GRID_MAJOR_FT = 50;  // heavier line every 50 ft
+  var sitePts = polyPts(SITE_POLY);
+
+  var parts = [];
+  parts.push('<defs><clipPath id="siteClip"><polygon points="'+sitePts+'"/></clipPath></defs>');
+
+  // site floor + grid (clipped to the trapezoid)
+  parts.push('<polygon points="'+sitePts+'" fill="var(--panel-2)" stroke="none"/>');
+  var gridG = '<g clip-path="url(#siteClip)">';
+  for(var gx=0; gx<=SITE_W; gx+=GRID_FT){
+    gridG += line(X(gx),Y(0),X(gx),Y(SITE_H),"var(--grid-line)", (gx % GRID_MAJOR_FT === 0) ? 1.4 : 0.7);
+  }
+  for(var gy=0; gy<=SITE_H; gy+=GRID_FT){
+    gridG += line(X(0),Y(gy),X(SITE_W),Y(gy),"var(--grid-line)", (gy % GRID_MAJOR_FT === 0) ? 1.4 : 0.7);
+  }
+  gridG += '</g>';
+  parts.push(gridG);
+
+  // zones, areas and fixtures are now editable DOM elements in #areaLayer (built below) —
+  // only the static site floor + grid + perimeter live in this SVG.
+
+  // site perimeter wall
+  parts.push('<polygon points="'+sitePts+'" fill="none" stroke="var(--wall)" stroke-width="'+WALL_T+'" stroke-linejoin="miter"/>');
+
+  svg.innerHTML = parts.join("");
+
+  // the clearance overlay renders into #labelsSvg, painted above equipment via DOM order.
+  var clearanceActive = false;
+  // machines with trays / hinged doors need a full machine-depth pull-out zone (doc §1.4)
+  var PULLOUT_IDS = {dryer:1, centrifuge:1, primingUnit:1, reDryer:1};
+  var ACCESS_CLEAR_FT = 3;   // 36 in on the operator / access sides
+  function clearanceShapes(){
+    if(!clearanceActive || !selectedId || !state[selectedId]) return "";
+    var it = state[selectedId];
+    var wFt = (it.dia || it.w) / 12, hFt = (it.dia || it.h) / 12;
+    var x0 = it.cx - wFt/2 - ACCESS_CLEAR_FT, y0 = it.cy - hFt/2 - ACCESS_CLEAR_FT;
+    var w = wFt + ACCESS_CLEAR_FT*2, h = hFt + ACCESS_CLEAR_FT*2;
+    var s = '<rect x="'+X(x0)+'" y="'+Y(y0)+'" width="'+FT(w)+'" height="'+FT(h)+'" fill="var(--outlet-edit)" fill-opacity="0.10" stroke="var(--outlet-edit)" stroke-width="1.2" stroke-dasharray="4,3"/>';
+    if(PULLOUT_IDS[it.id]){
+      // one machine-depth of clear floor in front (drawn on the +y / lower side)
+      var py = it.cy + hFt/2 + ACCESS_CLEAR_FT;
+      s += '<rect x="'+X(it.cx - wFt/2)+'" y="'+Y(py)+'" width="'+FT(wFt)+'" height="'+FT(hFt)+'" fill="var(--outlet-edit)" fill-opacity="0.16" stroke="var(--outlet-edit)" stroke-width="1" stroke-dasharray="2,2"/>';
+      s += '<text class="fixture-label" x="'+X(it.cx)+'" y="'+(Y(py)+FT(hFt)/2)+'" font-size="6.5" text-anchor="middle">pull-out</text>';
+    }
+    s += '<text class="fixture-label" x="'+X(x0)+'" y="'+(Y(y0)-2)+'" font-size="7">36 in access clearance'+(it.rot%360!==0?' (shown unrotated)':'')+'</text>';
+    return s;
+  }
+  function renderOverlay(){
+    labelsSvg.innerHTML = clearanceShapes();
+  }
+  renderOverlay();
+
+  // ---------- zone legend + live sqft readout ----------
+  var SITE_SQFT = polyArea(SITE_POLY);
+  var ZONE_ORDER = AREAS.filter(function(a){ return a.kind === "zone"; }).map(function(a){ return a.id; });
+  function renderZoneStats(){
+    document.getElementById("zoneLegend").innerHTML = ZONE_ORDER.map(function(id){
+      var z = ZONE_BY_ID[id], live = state[id];
+      var cur = live ? Math.round(live.w * live.h) : 0;
+      return '<li title="'+z.note.replace(/"/g,"&quot;")+'"><span class="sw" style="background:'+z.color+'"></span>'+
+             '<span class="lz-name">'+z.id+'</span>&nbsp;'+z.name+
+             '<span class="lz-sf">'+cur.toLocaleString()+' / ~'+z.target.toLocaleString()+'</span></li>';
+    }).join("");
+    var drawn = 0;
+    ZONE_ORDER.forEach(function(id){
+      if(id === "D1") return;               // D1 overlaps A — don't double-count
+      var live = state[id];
+      if(live) drawn += live.w * live.h;
+    });
+    document.getElementById("sqftReadout").innerHTML =
+      '<span>zones drawn &#8776; <b>'+Math.round(drawn).toLocaleString()+'</b> sqft</span>'+
+      '<span>site <b>'+Math.round(SITE_SQFT).toLocaleString()+'</b> sqft</span>';
+  }
+
+  // ---------- equipment ----------
+  // w/h in INCHES (doc §1.4 footprints, L×W ft × 12); cx/cy the centre in FEET; each item's
+  // `zone` drives its default colour. `est:true` = no vendor dimension in the source doc.
+  // One unit of each machine (Config 1, Phase 1). "block" items are racking / benches.
+  // `short` = compact label under the box in Presentation mode; full `label` stays in the
+  // Equipment Schedule, the detailed view, and the exported legend.
+  var EQUIPMENT = [
+    // Zone A — Wet / Chemical (prefab pole barn)
+    {id:"berryColourSorter", label:"BERRY\nCOLOUR SORT", short:"COLOUR SORT", zone:"A", w:48, h:36, cx:30, cy:12, rot:0, est:true},
+    {id:"seedExtraction",    label:"SEED\nEXTRACTION",   short:"EXTRACTION",  zone:"A", w:56, h:24, cx:44, cy:12, rot:0},
+    {id:"drlDrum",           label:"DRL DRUM\nDISINFECT", short:"DRL DISINFECT", zone:"A", w:38, h:38, cx:58, cy:15, rot:0},
+    {id:"centrifuge",        label:"DRP-4000\nCENTRIFUGE", short:"CENTRIFUGE", zone:"A", w:36, h:24, cx:70, cy:21, rot:0},
+    {id:"dryer",             label:"DRM-4100\nDRYER",     short:"DRYER",       zone:"A", w:54, h:36, cx:83, cy:28, rot:0},
+    // Zone D1 — Berry intake
+    {id:"berryRacking",      label:"BERRY BIN /\nTOTE RACKING", short:"TOTE RACKING", zone:"D1", w:192, h:144, cx:12, cy:10, rot:0, openback:true},
+    // Zone B1 — Dry & Dusty, pre-priming
+    {id:"airScreen",         label:"AIR SCREEN",   short:"AIR SCREEN", zone:"B1", w:36, h:48, cx:13, cy:52, rot:0},
+    {id:"densityGrader",     label:"DENSITY\nGRADING TABLE", short:"GRADING TBL", zone:"B1", w:36, h:48, cx:24, cy:61, rot:0},
+    {id:"seedColorSorter",   label:"SEED COLOR\nSORTER", short:"COLOR SORT", zone:"B1", w:36, h:36, cx:13, cy:74, rot:0},
+    {id:"airColumn",         label:"AIR\nCOLUMN",  short:"AIR COLUMN", zone:"B1", w:24, h:24, cx:24, cy:86, rot:0},
+    // Zone D2 — Seed-holding cold room
+    {id:"coldRacking",       label:"COLD-ROOM\nPALLET RACKING", short:"PALLET RACK", zone:"D2", w:216, h:144, cx:51, cy:55, rot:0, openback:true},
+    // Zone C — Clean Lab & Priming
+    {id:"primingUnit",       label:"OSMOTIC\nPRIMING UNIT", short:"PRIMING", zone:"C", w:48, h:48, cx:53, cy:79, rot:0, est:true},
+    {id:"reDryer",           label:"POST-PRIMING\nRE-DRYER", short:"RE-DRYER", zone:"C", w:48, h:36, cx:67, cy:79, rot:0, est:true},
+    {id:"waBench",           label:"WATER-ACTIVITY\n& PRIMING QA", short:"WA / QA BENCH", zone:"C", w:72, h:30, cx:82, cy:79, rot:0, est:true},
+    {id:"germChamber",       label:"GERM\nCHAMBER", short:"GERM CH.", zone:"C", w:35, h:32, cx:53, cy:98, rot:0},
+    {id:"growthChamber",     label:"GROWTH\nCHAMBER", short:"GROWTH CH.", zone:"C", w:36, h:36, cx:66, cy:98, rot:0},
+    {id:"thermoTable",       label:"THERMOGRADIENT\nTABLE", short:"THERMO TBL", zone:"C", w:72, h:36, cx:82, cy:101, rot:0, est:true},
+    // Zone B2 — Dry & Dusty, pelleting suite
+    {id:"powderBlender",     label:"POWDER\nBLENDER", short:"BLENDER", zone:"B2", w:36, h:36, cx:109, cy:74, rot:0},
+    {id:"pelletingPan",      label:"PELLETING\nPAN", short:"PELLET PAN", zone:"B2", w:24, h:36, cx:120, cy:82, rot:0},
+    {id:"pelletDryer",       label:"PELLET\nDRYER", short:"PELLET DRY", zone:"B2", w:24, h:96, cx:130, cy:92, rot:0},
+    {id:"drySizer",          label:"DRY\nSIZER", short:"DRY SIZER", zone:"B2", w:36, h:48, cx:112, cy:101, rot:0},
+    // Zone E — Finishing / QA / Dispatch
+    {id:"countPack",         label:"COUNT / WEIGH\n/ PACKAGE", short:"COUNT / PACK", zone:"E", w:96, h:36, cx:28, cy:127, rot:0, est:true},
+    {id:"finalQABench",      label:"FINAL QA\nBENCH", short:"QA BENCH", zone:"E", w:72, h:30, cx:58, cy:127, rot:0, est:true},
+    {id:"retainStorage",     label:"RETAIN-SAMPLE\nSTORAGE", short:"RETAIN SMPL", zone:"E", w:48, h:24, cx:82, cy:127, rot:0, est:true, openback:true},
+    {id:"fgRacking",         label:"FINISHED-GOODS\nRACKING / STAGING", short:"FG RACKING", zone:"E", w:240, h:96, cx:104, cy:127, rot:0, openback:true},
+    // Office / Gowning
+    {id:"gowningBench",      label:"GOWNING\nBENCHES", short:"GOWNING", zone:"OFF", w:120, h:36, cx:141, cy:121, rot:0},
+    {id:"officeDesk",        label:"SITE OFFICE\nDESK", short:"OFFICE DESK", zone:"OFF", w:60, h:30, cx:141, cy:131, rot:0}
+  ];
+  EQUIPMENT.forEach(function(e){ if(!e.color) e.color = zoneColor(e.zone); });
+  // index number per machine, in the schedule's display order (zone grouping) so the side list
+  // reads 1,2,3… top-to-bottom. Shown on the box in Presentation mode + in the exported legend.
+  (function(){
+    var t = 0;
+    ZONE_ORDER.forEach(function(z){ EQUIPMENT.forEach(function(e){ if(e.zone === z) e.tag = ++t; }); });
+    EQUIPMENT.forEach(function(e){ if(e.tag == null) e.tag = ++t; });
+  })();
+  var DEFAULTS = EQUIPMENT; // the rest of the engine refers to DEFAULTS
+
+  // recolor palette — the 8 zone colours plus a few neutrals, so a piece can be tinted off its
+  // zone default (e.g. to flag a shared machine or a phase-2 duplicate).
+  var COLOR_PALETTE = [
+    "#3b7bbf","#d8c27a","#c79a4b","#6bb8c7","#5c8a5c","#c1552c","#8a5c8a","#8a8f98",
+    "#5c6b3f","#a97c50","#6b4e30","#221f1c","#c4b596"
+  ];
+
+  // ---------- persistence: global dimensions + named layout slots ----------
+  // dimensions are global (not per-slot): resizing an item applies everywhere, in every saved layout.
+  var DIMS_STORAGE_KEY = "seed-facility-dims-v1";
+  function loadDimensionsOverride(){
+    try{
+      var raw = window.localStorage.getItem(DIMS_STORAGE_KEY);
+      if(!raw) return {};
+      var parsed = JSON.parse(raw);
+      return (parsed && typeof parsed==="object") ? parsed : {};
+    } catch(e){ return {}; }
+  }
+  function saveDimensionsOverride(){
+    try{ window.localStorage.setItem(DIMS_STORAGE_KEY, JSON.stringify(dimensionsOverride)); } catch(e){}
+  }
+  var dimensionsOverride = loadDimensionsOverride();
+  function setDimensionOverride(id, field, value){
+    if(!dimensionsOverride[id]) dimensionsOverride[id] = {};
+    dimensionsOverride[id][field] = value;
+    saveDimensionsOverride();
+  }
+  function applyDimOverride(item){
+    var ov = dimensionsOverride[item.id];
+    if(!ov) return;
+    if(ov.w!=null) item.w = ov.w;
+    if(ov.h!=null) item.h = ov.h;
+    if(ov.dia!=null) item.dia = ov.dia;
+  }
+
+  // named layout slots — each is a full snapshot of position/rotation/color (not dimensions) for
+  // every equipment item.
+  var SLOTS_STORAGE_KEY = "seed-facility-slots-v2";
+  function loadSlotsData(){
+    try{
+      var raw = window.localStorage.getItem(SLOTS_STORAGE_KEY);
+      if(!raw) return {slots:[], activeSlotId:null};
+      var parsed = JSON.parse(raw);
+      if(!parsed || !Array.isArray(parsed.slots)) return {slots:[], activeSlotId:null};
+      return {slots:parsed.slots, activeSlotId:parsed.activeSlotId||null};
+    } catch(e){ return {slots:[], activeSlotId:null}; }
+  }
+  function saveSlotsData(){
+    try{ window.localStorage.setItem(SLOTS_STORAGE_KEY, JSON.stringify({slots:slots, activeSlotId:activeSlotId})); } catch(e){}
+  }
+  var slotsData = loadSlotsData();
+  var slots = slotsData.slots;
+  var activeSlotId = slotsData.activeSlotId;
+  var dirty = false;
+  function slotById(id){
+    return slots.filter(function(s){ return s.id===id; })[0] || null;
+  }
+
+  // ---- shipped preset layouts ----
+  // Three hand-built arrangements baked into the file and seeded into the slot list on load
+  // (added only if their stable id is absent), so they're always in the Layouts dropdown — even
+  // opening this file via file://. "Reset Layout" is unaffected: it still restores the code
+  // AREAS / FIXTURES / EQUIPMENT defaults. Deleting a preset re-seeds it on the next load.
+  // Each `items` map has the shape currentSnapshot() produces: {cx,cy,rot,color} per equipment
+  // item, plus {w,h} for zones/areas. addItem() applies only the fields present, so records
+  // that omit `color` fall back to the zone default, and fixtures carry just {cx,cy}.
+  var PRESET_SLOTS = [
+    {id:"preset-horseshoe", name:"Flow A — Process Horseshoe", items:{
+      A:{cx:31, cy:19.5, w:56, h:33},
+      D1:{cx:11.5, cy:9, w:17, h:12},
+      B1:{cx:17.5, cy:67, w:29, h:54},
+      D2:{cx:47, cy:48, w:20, h:18},
+      C:{cx:60.5, cy:81.5, w:47, h:41},
+      B2:{cx:103, cy:86, w:30, h:36},
+      E:{cx:71.5, cy:121.5, w:137, h:27},
+      OFF:{cx:148.5, cy:122.5, w:15, h:21},
+      anteAB1:{cx:14, cy:38, w:16, h:6},
+      anteD2C:{cx:47, cy:59.5, w:16, h:5},
+      passCB2:{cx:87, cy:75.5, w:8, h:7},
+      bufIntake:{cx:27, cy:5, w:12, h:4},
+      bufDried:{cx:47, cy:31, w:14, h:6},
+      wipB1C:{cx:35, cy:75, w:4, h:22},
+      wipCB2:{cx:86, cy:84, w:4, h:20},
+      berryColourSorter:{cx:25, cy:11, rot:0},
+      seedExtraction:{cx:33, cy:10, rot:0},
+      drlDrum:{cx:41, cy:11, rot:0},
+      centrifuge:{cx:48, cy:10, rot:0},
+      dryer:{cx:48, cy:24, rot:0},
+      berryRacking:{cx:11.5, cy:9, rot:0},
+      airScreen:{cx:10, cy:46, rot:0},
+      densityGrader:{cx:20, cy:46, rot:0},
+      seedColorSorter:{cx:10, cy:56, rot:0},
+      airColumn:{cx:20, cy:56, rot:0},
+      coldRacking:{cx:47, cy:48, rot:0},
+      primingUnit:{cx:43, cy:69, rot:0},
+      reDryer:{cx:52, cy:69, rot:0},
+      waBench:{cx:63, cy:69, rot:0},
+      germChamber:{cx:43, cy:92, rot:0},
+      growthChamber:{cx:51, cy:92, rot:0},
+      thermoTable:{cx:62, cy:92, rot:0},
+      powderBlender:{cx:94, cy:74, rot:0},
+      pelletingPan:{cx:101, cy:74, rot:0},
+      pelletDryer:{cx:107, cy:86, rot:90},
+      drySizer:{cx:95, cy:98, rot:0},
+      countPack:{cx:14, cy:114, rot:0},
+      finalQABench:{cx:26, cy:114, rot:0},
+      retainStorage:{cx:35, cy:114, rot:0},
+      fgRacking:{cx:90, cy:126, rot:0},
+      gowningBench:{cx:148, cy:118, rot:0},
+      officeDesk:{cx:147, cy:126, rot:0},
+      rollupDoor:{cx:75, cy:135},
+      toteDoor:{cx:3, cy:10},
+      cartB1D2:{cx:34, cy:48},
+      cartB2E:{cx:100, cy:106},
+      trenchDrain:{cx:35, cy:31},
+      fumeExhaust:{cx:45, cy:5},
+      eyewash:{cx:6, cy:38},
+      dustB1:{cx:18, cy:66},
+      dustB2:{cx:100, cy:72},
+      sinkAB1:{cx:11, cy:37},
+      sinkE:{cx:20, cy:120}
+    }},
+    {id:"preset-diagonal", name:"Flow B — Diagonal Throughput Line", items:{
+      D1:{cx:13, cy:11, w:20, h:16},
+      A:{cx:21.5, cy:36, w:37, h:28},
+      B1:{cx:19, cy:71, w:32, h:38},
+      D2:{cx:50, cy:53, w:20, h:18},
+      C:{cx:68, cy:83, w:46, h:38},
+      B2:{cx:110, cy:91, w:28, h:34},
+      E:{cx:100, cy:122, w:100, h:24},
+      OFF:{cx:15, cy:112, w:24, h:32},
+      anteAB1:{cx:14, cy:50.5, w:16, h:5},
+      anteD2C:{cx:52, cy:62, w:16, h:4},
+      passCB2:{cx:93, cy:81.5, w:8, h:7},
+      bufIntake:{cx:14, cy:24.5, w:12, h:3},
+      bufDried:{cx:15, cy:47.5, w:14, h:3},
+      wipB1C:{cx:39, cy:74, w:4, h:20},
+      wipCB2:{cx:94, cy:93, w:4, h:18},
+      berryColourSorter:{cx:9, cy:30, rot:0},
+      seedExtraction:{cx:18, cy:30, rot:0},
+      drlDrum:{cx:27, cy:31, rot:0},
+      centrifuge:{cx:35, cy:30, rot:0},
+      dryer:{cx:33, cy:44, rot:0},
+      berryRacking:{cx:12, cy:10, rot:0},
+      airScreen:{cx:10, cy:58, rot:0},
+      densityGrader:{cx:20, cy:58, rot:0},
+      seedColorSorter:{cx:10, cy:70, rot:0},
+      airColumn:{cx:20, cy:70, rot:0},
+      coldRacking:{cx:50, cy:53, rot:0},
+      primingUnit:{cx:52, cy:70, rot:0},
+      reDryer:{cx:61, cy:70, rot:0},
+      waBench:{cx:72, cy:70, rot:0},
+      germChamber:{cx:52, cy:92, rot:0},
+      growthChamber:{cx:60, cy:92, rot:0},
+      thermoTable:{cx:72, cy:92, rot:0},
+      powderBlender:{cx:102, cy:80, rot:0},
+      pelletingPan:{cx:109, cy:80, rot:0},
+      pelletDryer:{cx:115, cy:92, rot:90},
+      drySizer:{cx:103, cy:100, rot:0},
+      countPack:{cx:62, cy:116, rot:0},
+      finalQABench:{cx:74, cy:116, rot:0},
+      retainStorage:{cx:83, cy:116, rot:0},
+      fgRacking:{cx:115, cy:126, rot:0},
+      gowningBench:{cx:13, cy:102, rot:0},
+      officeDesk:{cx:11, cy:110, rot:0},
+      rollupDoor:{cx:120, cy:134},
+      toteDoor:{cx:3, cy:9},
+      cartB1D2:{cx:38, cy:54},
+      cartB2E:{cx:108, cy:108},
+      trenchDrain:{cx:25, cy:44},
+      fumeExhaust:{cx:25, cy:23},
+      eyewash:{cx:6, cy:50},
+      dustB1:{cx:16, cy:76},
+      dustB2:{cx:118, cy:80},
+      sinkAB1:{cx:9, cy:50},
+      sinkE:{cx:60, cy:112}
+    }},
+    {id:"preset-cleancore", name:"Flow C — Clean Core (hygiene-zoned)", items:{
+      D1:{cx:13, cy:10.5, w:20, h:15},
+      A:{cx:42, cy:20, w:34, h:34},
+      B1:{cx:16, cy:60, w:26, h:40},
+      B2:{cx:97, cy:84, w:30, h:36},
+      D2:{cx:51, cy:50, w:22, h:20},
+      C:{cx:58, cy:84, w:44, h:40},
+      E:{cx:78, cy:121, w:96, h:30},
+      OFF:{cx:15, cy:94, w:24, h:20},
+      anteAB1:{cx:18, cy:38.5, w:16, h:5},
+      anteD2C:{cx:50, cy:62, w:16, h:4},
+      passCB2:{cx:81, cy:71.5, w:6, h:7},
+      bufIntake:{cx:13, cy:21.5, w:20, h:5},
+      bufDried:{cx:37, cy:38.5, w:14, h:3},
+      wipB1C:{cx:32, cy:76, w:4, h:20},
+      wipCB2:{cx:81, cy:82, w:2, h:24},
+      berryColourSorter:{cx:31, cy:10, rot:0},
+      seedExtraction:{cx:40, cy:10, rot:0},
+      drlDrum:{cx:49, cy:11, rot:0},
+      centrifuge:{cx:55, cy:10, rot:0},
+      dryer:{cx:42, cy:28, rot:0},
+      berryRacking:{cx:12, cy:10, rot:0},
+      airScreen:{cx:9, cy:46, rot:0},
+      densityGrader:{cx:19, cy:46, rot:0},
+      seedColorSorter:{cx:9, cy:58, rot:0},
+      airColumn:{cx:19, cy:58, rot:0},
+      coldRacking:{cx:51, cy:50, rot:0},
+      primingUnit:{cx:43, cy:72, rot:0},
+      reDryer:{cx:52, cy:72, rot:0},
+      waBench:{cx:63, cy:72, rot:0},
+      germChamber:{cx:43, cy:95, rot:0},
+      growthChamber:{cx:51, cy:95, rot:0},
+      thermoTable:{cx:63, cy:95, rot:0},
+      powderBlender:{cx:88, cy:72, rot:0},
+      pelletingPan:{cx:95, cy:72, rot:0},
+      pelletDryer:{cx:101, cy:82, rot:90},
+      drySizer:{cx:89, cy:92, rot:0},
+      countPack:{cx:44, cy:113, rot:0},
+      finalQABench:{cx:57, cy:113, rot:0},
+      retainStorage:{cx:67, cy:113, rot:0},
+      fgRacking:{cx:95, cy:126, rot:0},
+      gowningBench:{cx:13, cy:90, rot:0},
+      officeDesk:{cx:11, cy:98, rot:0},
+      rollupDoor:{cx:100, cy:136},
+      toteDoor:{cx:3, cy:9},
+      cartB1D2:{cx:33, cy:48},
+      cartB2E:{cx:95, cy:104},
+      trenchDrain:{cx:42, cy:30},
+      fumeExhaust:{cx:40, cy:4},
+      eyewash:{cx:26, cy:36},
+      dustB1:{cx:4, cy:64},
+      dustB2:{cx:108, cy:74},
+      sinkAB1:{cx:16, cy:38},
+      sinkE:{cx:36, cy:110}
+    }}
+  ];
+  function seedPresetSlots(){
+    var changed = false;
+    PRESET_SLOTS.forEach(function(p){
+      if(!slotById(p.id)){ slots.push({id:p.id, name:p.name, items:p.items}); changed = true; }
+    });
+    if(changed) saveSlotsData();
+  }
+
+  var state = {};
+  var order = [];
+  var selectedId = null;
+  var layer = document.getElementById("furnitureLayer");
+
+  // picks readable label text (light or dark) from each item's own fill color, independent of
+  // the light/dark theme — furniture colors are fixed per-item and don't track the theme, so a
+  // single theme-driven label color goes illegible against whichever pieces are dark (or light).
+  function readableTextColor(hex){
+    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    var luminance = (0.299*r + 0.587*g + 0.114*b) / 255;
+    return luminance > 0.58 ? "#171310" : "#f5efe0";
+  }
+
+  var ROUNDED_IDS = [];
+
+  // dispatch: equipment (no kind) | zone/area rectangle | point/line fixture
+  function buildItemEl(item){
+    if(item.kind === "zone" || item.kind === "area") return buildAreaEl(item);
+    if(item.kind === "fixture") return buildFixtureEl(item);
+    return buildEquipEl(item);
+  }
+
+  function buildAreaEl(item){
+    var el = document.createElement("div");
+    el.className = "area-item kind-" + item.kind + (item.kind === "zone" ? " zone" : "");
+    el.dataset.id = item.id;
+    el.tabIndex = 0;
+    el.style.borderColor = item.color;
+    el.style.background = hexToRgba(item.color, 0.13);
+
+    var label = document.createElement("div");
+    label.className = "area-label";
+    label.innerHTML = '<span class="al-id"></span> <span class="al-name"></span>' +
+      (item.kind === "zone" ? '<span class="sf" data-role="sf"></span>' : "");
+    el.appendChild(label);
+    item._labelEl = label;
+
+    ["nw","ne","sw","se"].forEach(function(corner){
+      var h = document.createElement("div");
+      h.className = "resize-handle " + corner;
+      h.addEventListener("pointerdown", function(e){ startResize(e, item, corner); });
+      el.appendChild(h);
+    });
+
+    el.addEventListener("pointerdown", function(e){ startDrag(e, item); });
+    el.addEventListener("click", function(e){ e.stopPropagation(); select(item.id); });
+    el.addEventListener("keydown", function(e){ handleKey(e, item); });
+    return el;
+  }
+
+  function buildFixtureEl(item){
+    var el = document.createElement("div");
+    el.className = "fixture-item " + (item.fx === "point" ? "point" : "line");
+    el.dataset.id = item.id;
+    el.tabIndex = 0;
+
+    if(item.fx === "point"){
+      var dot = document.createElement("div");
+      dot.className = "dot";
+      dot.style.background = item.color;
+      el.appendChild(dot);
+    } else {
+      var bar = document.createElement("div");
+      bar.className = "bar";
+      bar.style.background = item.color;
+      if(item.dashed) bar.style.background =
+        "repeating-linear-gradient(" + (item.fx === "hline" ? "90deg" : "0deg") +
+        "," + item.color + " 0 5px,transparent 5px 9px)";
+      el.appendChild(bar);
+    }
+    var lbl = document.createElement("div");
+    lbl.className = "flbl";
+    lbl.textContent = item.label;
+    el.appendChild(lbl);
+    item._labelEl = lbl;
+
+    el.addEventListener("pointerdown", function(e){ startDrag(e, item); });
+    el.addEventListener("click", function(e){ e.stopPropagation(); select(item.id); });
+    el.addEventListener("keydown", function(e){ handleKey(e, item); });
+    return el;
+  }
+
+  function hexToRgba(hex, a){
+    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+  }
+
+  function buildEquipEl(item){
+    var el = document.createElement("div");
+    el.className = "furniture-item" + (item.shape==="circle" ? " circle" : "") + (ROUNDED_IDS.indexOf(item.id)>-1 ? " rounded" : "");
+    el.dataset.id = item.id;
+    el.tabIndex = 0;
+    el.style.background = item.color;
+
+    var label = document.createElement("div");
+    label.className = "lbl";
+    label.textContent = item.label.replace(/\n/g," ");
+    label.style.color = readableTextColor(item.color);
+    el.appendChild(label);
+    item._labelEl = label;
+
+    // Presentation mode: number on the box + full name wrapped just below it.
+    var tagEl = document.createElement("div");
+    tagEl.className = "lbl tagnum";
+    tagEl.textContent = item.tag != null ? item.tag : "";
+    tagEl.style.color = readableTextColor(item.color);
+    tagEl.hidden = true;
+    el.appendChild(tagEl);
+    item._tagEl = tagEl;
+
+    var belowEl = document.createElement("div");
+    belowEl.className = "lbl-below";
+    belowEl.textContent = item.short || item.label.replace(/\n/g," ");
+    belowEl.hidden = true;
+    el.appendChild(belowEl);
+    item._belowEl = belowEl;
+
+    var handle = document.createElement("div");
+    handle.className = "handle";
+    handle.addEventListener("pointerdown", function(e){ startRotate(e, item); });
+    el.appendChild(handle);
+
+    if(item.tv){
+      var screen = document.createElement("div");
+      screen.className = "tv-screen";
+      screen.style.left = "6%"; screen.style.right = "6%";
+      screen.style.top = "-34%"; screen.style.height = "26%";
+      el.appendChild(screen);
+    }
+    if(item.wheels){
+      ["10%","90%"].forEach(function(lx){
+        ["12%","88%"].forEach(function(ty){
+          var w = document.createElement("div");
+          w.className = "wheel";
+          w.style.left = lx; w.style.top = ty;
+          el.appendChild(w);
+        });
+      });
+    }
+    if(item.lampBulb){
+      var bulb = document.createElement("div");
+      bulb.className = "lamp-bulb";
+      bulb.style.left = "32%"; bulb.style.top = "32%";
+      el.appendChild(bulb);
+    }
+    if(item.openback){
+      [0.3,0.55,0.8].forEach(function(f){
+        var s = document.createElement("div");
+        s.className = "shelf-line";
+        s.style.top = (f*100)+"%";
+        el.appendChild(s);
+      });
+      el.style.borderRightStyle = "dashed";
+    }
+    if(item.drawers){
+      [0.34,0.67].forEach(function(f){
+        var s = document.createElement("div");
+        s.className = "shelf-line";
+        s.style.top = (f*100)+"%";
+        el.appendChild(s);
+      });
+    }
+    if(item.bed){
+      [0.26,0.74].forEach(function(fx){
+        var p = document.createElement("div");
+        p.className = "pillow";
+        p.style.left = (fx*100-11)+"%"; p.style.top = "5%";
+        el.appendChild(p);
+      });
+    }
+
+    el.addEventListener("pointerdown", function(e){ startDrag(e, item); });
+    el.addEventListener("click", function(e){ e.stopPropagation(); select(item.id); });
+    el.addEventListener("keydown", function(e){ handleKey(e, item); });
+
+    return el;
+  }
+
+  var FIXTURE_DOT = 8, FIXTURE_BAR = 4; // px, unscaled
+
+  function render(item){
+    var wpx, hpx;
+    var present = labelMode === "present";
+    if(item.kind === "zone" || item.kind === "area"){
+      wpx = FT(item.w); hpx = FT(item.h);
+      item._el.style.width = wpx+"px";
+      item._el.style.height = hpx+"px";
+      item._el.style.left = (X(item.cx) - wpx/2)+"px";
+      item._el.style.top = (Y(item.cy) - hpx/2)+"px";
+      if(item._labelEl){
+        var idEl = item._labelEl.querySelector(".al-id");
+        var nameEl = item._labelEl.querySelector(".al-name");
+        var sf = item._labelEl.querySelector('[data-role="sf"]');
+        if(idEl) idEl.textContent = (present && item.kind === "area") ? "" : item.id;
+        if(nameEl) nameEl.textContent = present ? (item.short || item.name) : ("· " + item.name);
+        if(sf){
+          sf.textContent = Math.round(item.w*item.h).toLocaleString() + " sqft";
+          sf.hidden = present;
+        }
+        // support areas are thin — keep their compact label on one line so it doesn't spill
+        // down over the zone below it.
+        item._labelEl.style.whiteSpace = (present && item.kind === "area") ? "nowrap" : "normal";
+      }
+    } else if(item.kind === "fixture"){
+      if(item.fx === "point"){ wpx = FIXTURE_DOT; hpx = FIXTURE_DOT; }
+      else if(item.fx === "hline"){ wpx = FT(item.len); hpx = FIXTURE_BAR; }
+      else { wpx = FIXTURE_BAR; hpx = FT(item.len); }
+      item._el.style.width = wpx+"px";
+      item._el.style.height = hpx+"px";
+      item._el.style.left = (X(item.cx) - wpx/2)+"px";
+      item._el.style.top = (Y(item.cy) - hpx/2)+"px";
+      if(item._labelEl){
+        item._labelEl.textContent = present ? (item.short || item.label) : item.label;
+      }
+    } else {
+      var wIn = item.dia || item.w, hIn = item.dia || item.h;
+      wpx = wIn*PX_PER_IN; hpx = hIn*PX_PER_IN;
+      item._el.style.width = wpx+"px";
+      item._el.style.height = hpx+"px";
+      item._el.style.left = (X(item.cx) - wpx/2)+"px";
+      item._el.style.top = (Y(item.cy) - hpx/2)+"px";
+      item._el.style.transform = "rotate("+item.rot+"deg)";
+      item._labelEl.style.transform = "rotate("+(-item.rot)+"deg)";
+      // explicit width so the on-box name wraps to a sane block instead of one long streak
+      // (a flex child can't exceed its own small box without it) or one char per line.
+      item._labelEl.style.width = Math.max(wpx + 18, 78) + "px";
+      item._labelEl.hidden = present;
+      if(item._tagEl){
+        item._tagEl.style.transform = "rotate("+(-item.rot)+"deg)";
+        item._tagEl.hidden = !present;
+      }
+      if(item._belowEl){
+        // stagger the name-below into 3 vertical tiers by left-to-right order within the zone,
+        // so labels of machines packed in a row drop to different heights instead of colliding.
+        var mates = order.filter(function(k){ var s = state[k]; return s && !s.kind && s.zone === item.zone; })
+                         .map(function(k){ return state[k]; })
+                         .sort(function(a,b){ return a.cx - b.cx; });
+        var tier = Math.max(0, mates.indexOf(item)) % 3;
+        item._belowEl.style.marginTop = (2 + tier * 11) + "px";
+        item._belowEl.style.transform = "translateX(-50%) rotate("+(-item.rot)+"deg)";
+        item._belowEl.hidden = !present;
+      }
+    }
+    item._el.classList.toggle("selected", item.id===selectedId);
+  }
+
+  var areaLayer = document.getElementById("areaLayer");
+
+  function addItem(def, over, targetLayer){
+    var item = Object.assign({}, def);
+    if(item.kind === "zone" || item.kind === "area"){
+      // convert the authored top-left x/y to a centre, like equipment
+      item.cx = def.x + def.w/2; item.cy = def.y + def.h/2;
+    }
+    if(over){
+      if(over.cx != null) item.cx = over.cx;
+      if(over.cy != null) item.cy = over.cy;
+      if(over.rot != null) item.rot = over.rot;
+      if(over.color != null) item.color = over.color;
+      if(over.w != null && item.kind) item.w = over.w;
+      if(over.h != null && item.kind) item.h = over.h;
+    }
+    if(!item.kind) applyDimOverride(item);
+    item._el = buildItemEl(item);
+    (targetLayer || layer).appendChild(item._el);
+    state[item.id] = item;
+    order.push(item.id);
+    render(item);
+  }
+
+  function cloneDefaultsInto(snapItems){
+    var s = snapItems || {};
+    AREAS.forEach(function(d){ addItem(d, s[d.id], areaLayer); });
+    FIXTURES.forEach(function(d){ addItem(d, s[d.id], areaLayer); });
+    DEFAULTS.forEach(function(d){ addItem(d, s[d.id], layer); });
+  }
+
+  // snapshot of everything a saved layout tracks — position/rotation/color per item, plus
+  // w/h for zones & areas (their size is per-layout, not global like equipment dims).
+  function currentSnapshot(){
+    var items = {};
+    order.forEach(function(id){
+      var it = state[id];
+      var rec = {cx:it.cx, cy:it.cy, rot:it.rot, color:it.color};
+      if(it.kind === "zone" || it.kind === "area"){ rec.w = it.w; rec.h = it.h; }
+      items[id] = rec;
+    });
+    return {items:items};
+  }
+
+  function applySnapshotToState(snap){
+    closeColorPopover();
+    layer.innerHTML = "";
+    areaLayer.innerHTML = "";
+    state = {}; order = []; selectedId = null;
+    cloneDefaultsInto(snap.items);
+    renderSchedule();
+    renderZoneStats();
+  }
+
+  function rebuildAll(){
+    applySnapshotToState({items:{}});
+    touch();
+  }
+
+  function touch(){
+    dirty = true;
+    updateDirtyIndicator();
+  }
+  function updateDirtyIndicator(){
+    document.getElementById("dirtyIndicator").classList.toggle("show", dirty);
+  }
+
+  function select(id){
+    selectedId = id;
+    order.forEach(function(k){ render(state[k]); });
+    renderSchedule();
+    renderOverlay();
+  }
+
+  document.getElementById("stage").addEventListener("pointerdown", function(e){
+    // items stopPropagation in startDrag/startResize, so anything reaching here is background
+    if(!e.target.closest || !e.target.closest(".furniture-item,.area-item,.fixture-item,.resize-handle")){
+      select(null);
+    }
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key==="Escape"){ select(null); closeColorPopover(); }
+  });
+
+  // ---- drag to move ----
+  var dragCtx = null;
+  function startDrag(e, item){
+    if(e.target.classList.contains("handle") || e.target.classList.contains("resize-handle")) return;
+    e.stopPropagation();
+    select(item.id);
+    item._el.setPointerCapture(e.pointerId);
+    dragCtx = {item:item, startX:e.clientX, startY:e.clientY, cx:item.cx, cy:item.cy, pid:e.pointerId};
+    item._el.addEventListener("pointermove", onDragMove);
+    item._el.addEventListener("pointerup", onDragEnd);
+  }
+  function onDragMove(e){
+    if(!dragCtx) return;
+    var dxFt = (e.clientX - dragCtx.startX)/SCALE/viewZoom;
+    var dyFt = (e.clientY - dragCtx.startY)/SCALE/viewZoom;
+    dragCtx.item.cx = dragCtx.cx + dxFt;
+    dragCtx.item.cy = dragCtx.cy + dyFt;
+    render(dragCtx.item);
+    if(clearanceActive) renderOverlay();
+  }
+  function onDragEnd(e){
+    if(!dragCtx) return;
+    dragCtx.item._el.releasePointerCapture(dragCtx.pid);
+    dragCtx.item._el.removeEventListener("pointermove", onDragMove);
+    dragCtx.item._el.removeEventListener("pointerup", onDragEnd);
+    dragCtx = null;
+    touch();
+  }
+
+  // ---- rotate via handle ----
+  var rotateCtx = null;
+  function startRotate(e, item){
+    e.stopPropagation();
+    select(item.id);
+    e.target.setPointerCapture(e.pointerId);
+    rotateCtx = {item:item, pid:e.pointerId, handle:e.target};
+    e.target.addEventListener("pointermove", onRotateMove);
+    e.target.addEventListener("pointerup", onRotateEnd);
+  }
+  var ROTATE_SNAP_DEG = 45;   // light detent every 45° (also catches the 90° marks)
+  var ROTATE_SNAP_CATCH = 5;  // capture window in degrees either side of a snap point — keep this small so it stays a nudge, not a lock
+  function onRotateMove(e){
+    if(!rotateCtx) return;
+    var rect = rotateCtx.item._el.getBoundingClientRect();
+    var ccx = rect.left+rect.width/2, ccy = rect.top+rect.height/2;
+    var angle = Math.atan2(e.clientY-ccy, e.clientX-ccx) * 180/Math.PI;
+    var rot = angle + 90;
+    if(e.shiftKey){
+      rot = Math.round(rot/15)*15; // hold shift for a firm 15° grid
+    } else {
+      var nearest = Math.round(rot/ROTATE_SNAP_DEG)*ROTATE_SNAP_DEG;
+      if(Math.abs(rot-nearest) < ROTATE_SNAP_CATCH) rot = nearest; // light pull near 45°/90° ticks, otherwise free
+    }
+    rotateCtx.item.rot = Math.round(rot);
+    render(rotateCtx.item);
+    if(clearanceActive) renderOverlay();
+  }
+  function onRotateEnd(e){
+    if(!rotateCtx) return;
+    rotateCtx.handle.releasePointerCapture(rotateCtx.pid);
+    rotateCtx.handle.removeEventListener("pointermove", onRotateMove);
+    rotateCtx.handle.removeEventListener("pointerup", onRotateEnd);
+    rotateCtx = null;
+    touch();
+  }
+
+  // ---- corner-resize (zones & areas only) ----
+  var MIN_AREA_FT = 2;
+  var resizeCtx = null;
+  function startResize(e, item, corner){
+    e.stopPropagation();
+    select(item.id);
+    e.target.setPointerCapture(e.pointerId);
+    var west = corner.indexOf("w") > -1, north = corner.indexOf("n") > -1;
+    resizeCtx = {
+      item: item, handle: e.target, pid: e.pointerId,
+      sx: e.clientX, sy: e.clientY,
+      // dragged corner (feet) and the anchored opposite corner (feet)
+      dragX: item.cx + (west ? -item.w/2 : item.w/2),
+      dragY: item.cy + (north ? -item.h/2 : item.h/2),
+      ax: item.cx + (west ? item.w/2 : -item.w/2),
+      ay: item.cy + (north ? item.h/2 : -item.h/2)
+    };
+    e.target.addEventListener("pointermove", onResizeMove);
+    e.target.addEventListener("pointerup", onResizeEnd);
+  }
+  function onResizeMove(e){
+    if(!resizeCtx) return;
+    var c = resizeCtx;
+    var px = c.dragX + (e.clientX - c.sx)/SCALE/viewZoom;
+    var py = c.dragY + (e.clientY - c.sy)/SCALE/viewZoom;
+    // the anchored corner (ax,ay) stays fixed; the box grows toward the pointer
+    var w, x0, h, y0;
+    if(px >= c.ax){ w = Math.max(MIN_AREA_FT, px - c.ax); x0 = c.ax; }
+    else          { w = Math.max(MIN_AREA_FT, c.ax - px); x0 = c.ax - w; }
+    if(py >= c.ay){ h = Math.max(MIN_AREA_FT, py - c.ay); y0 = c.ay; }
+    else          { h = Math.max(MIN_AREA_FT, c.ay - py); y0 = c.ay - h; }
+    c.item.w = w; c.item.h = h;
+    c.item.cx = x0 + w/2; c.item.cy = y0 + h/2;
+    render(c.item);
+    if(c.item.kind === "zone") renderZoneStats();
+    renderAreaSchedule();
+  }
+  function onResizeEnd(e){
+    if(!resizeCtx) return;
+    var it = resizeCtx.item;
+    it.w = Math.round(it.w * 2) / 2;   // snap to 0.5 ft
+    it.h = Math.round(it.h * 2) / 2;
+    resizeCtx.handle.releasePointerCapture(resizeCtx.pid);
+    resizeCtx.handle.removeEventListener("pointermove", onResizeMove);
+    resizeCtx.handle.removeEventListener("pointerup", onResizeEnd);
+    resizeCtx = null;
+    render(it);
+    renderAreaSchedule();
+    renderZoneStats();
+    touch();
+  }
+
+  // ---- keyboard ----
+  function handleKey(e, item){
+    if(selectedId !== item.id) return;
+    var step = e.shiftKey ? 1 : 0.25;
+    if((e.key==="r" || e.key==="R") && !item.kind){ item.rot = (item.rot + (e.shiftKey?-15:15)); render(item); touch(); e.preventDefault(); }
+    else if(e.key==="ArrowLeft"){ item.cx -= step; render(item); touch(); e.preventDefault(); }
+    else if(e.key==="ArrowRight"){ item.cx += step; render(item); touch(); e.preventDefault(); }
+    else if(e.key==="ArrowUp"){ item.cy -= step; render(item); touch(); e.preventDefault(); }
+    else if(e.key==="ArrowDown"){ item.cy += step; render(item); touch(); e.preventDefault(); }
+    else if(e.key==="Escape"){ select(null); closeColorPopover(); }
+  }
+
+  // ---- schedule panel ----
+  function dimInputsHtml(it){
+    if(it.dia){
+      return '⌀ <input class="dim-input" type="number" min="1" max="600" step="1" value="'+it.dia+'" data-field="dia">';
+    }
+    return '<input class="dim-input" type="number" min="1" max="600" step="1" value="'+it.w+'" data-field="w">'+
+           '<span class="dim-x">×</span>'+
+           '<input class="dim-input" type="number" min="1" max="600" step="1" value="'+it.h+'" data-field="h">';
+  }
+  function onDimInput(item, field, val){
+    var n = parseFloat(val);
+    if(isNaN(n) || n<=0) return;
+    item[field] = n;
+    render(item);
+    if(clearanceActive) renderOverlay();
+  }
+  function onDimChange(item, field, val){
+    var n = parseFloat(val);
+    if(isNaN(n) || n<=0) n = item[field];
+    n = Math.max(1, Math.min(600, n));
+    item[field] = n;
+    render(item);
+    setDimensionOverride(item.id, field, n);
+    renderSchedule();
+    if(clearanceActive) renderOverlay();
+  }
+  function onRotInput(item, val){
+    var n = parseFloat(val);
+    if(isNaN(n)) return;
+    item.rot = n;
+    render(item);
+  }
+  function onRotChange(item, val){
+    var n = parseFloat(val);
+    if(isNaN(n)) n = item.rot;
+    n = ((Math.round(n)%360)+360)%360;
+    item.rot = n;
+    render(item);
+    touch();
+    renderSchedule();
+  }
+  function makeScheduleRow(id){
+    var it = state[id];
+    var tr = document.createElement("tr");
+    tr.className = (id===selectedId) ? "active" : "";
+    var estTag = it.est ? '<span class="est-badge" title="No vendor dimension in the source doc — estimated">est</span>' : '';
+    tr.innerHTML = '<td><button class="swatch" style="background:'+it.color+'" title="Recolor"></button>'+it.label.replace(/\n/g," ")+estTag+'</td>' +
+                    '<td>'+dimInputsHtml(it)+'</td>' +
+                    '<td><input class="dim-input rot-input" type="number" step="1" value="'+Math.round(((it.rot%360)+360)%360)+'" data-field="rot">°</td>';
+    tr.addEventListener("click", function(){ select(id); });
+    var swatchBtn = tr.querySelector(".swatch");
+    swatchBtn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var rect = swatchBtn.getBoundingClientRect(); // capture before select() re-renders the schedule
+      select(id);
+      openColorPopover(id, rect);
+    });
+    Array.prototype.forEach.call(tr.querySelectorAll(".dim-input"), function(inp){
+      inp.addEventListener("click", function(e){ e.stopPropagation(); });
+      inp.addEventListener("input", function(){
+        if(inp.dataset.field==="rot") onRotInput(it, inp.value);
+        else onDimInput(it, inp.dataset.field, inp.value);
+      });
+      inp.addEventListener("change", function(){
+        if(inp.dataset.field==="rot") onRotChange(it, inp.value);
+        else onDimChange(it, inp.dataset.field, inp.value);
+      });
+    });
+    return tr;
+  }
+  function renderSchedule(){
+    var body = document.getElementById("schedBody");
+    body.innerHTML = "";
+    var placed = {};
+    ZONE_ORDER.forEach(function(zid){
+      var z = ZONE_BY_ID[zid];
+      var ids = order.filter(function(id){ return state[id] && !state[id].kind && state[id].zone===zid; });
+      if(!ids.length) return;
+      var hdr = document.createElement("tr");
+      hdr.className = "zone-hdr";
+      hdr.innerHTML = '<td colspan="3"><span class="sw" style="background:'+z.color+'"></span>'+z.id+' · '+z.name+'</td>';
+      body.appendChild(hdr);
+      ids.forEach(function(id){ body.appendChild(makeScheduleRow(id)); placed[id]=1; });
+    });
+    // equipment whose zone isn't a known zone (shouldn't happen) — list it last
+    order.forEach(function(id){
+      if(!placed[id] && state[id] && !state[id].kind) body.appendChild(makeScheduleRow(id));
+    });
+    renderAreaSchedule();
+    renderFixtureList();
+  }
+
+  // ---- zones & areas table ----
+  function makeAreaRow(id){
+    var it = state[id];
+    var tr = document.createElement("tr");
+    tr.className = (id===selectedId) ? "active" : "";
+    var tag = it.kind === "zone" ? '' : ' <span class="est-badge">area</span>';
+    tr.innerHTML = '<td><button class="swatch" style="background:'+it.color+'" title="Recolor"></button>'+it.id+' · '+it.name+tag+'</td>' +
+      '<td><input class="dim-input" type="number" min="2" max="200" step="0.5" value="'+round1(it.w)+'" data-af="w">' +
+      '<span class="dim-x">×</span>' +
+      '<input class="dim-input" type="number" min="2" max="200" step="0.5" value="'+round1(it.h)+'" data-af="h"></td>';
+    tr.addEventListener("click", function(){ select(id); });
+    var sw = tr.querySelector(".swatch");
+    sw.addEventListener("click", function(e){
+      e.stopPropagation();
+      var rect = sw.getBoundingClientRect();
+      select(id);
+      openColorPopover(id, rect);
+    });
+    Array.prototype.forEach.call(tr.querySelectorAll(".dim-input"), function(inp){
+      inp.addEventListener("click", function(e){ e.stopPropagation(); });
+      inp.addEventListener("input", function(){ onAreaDim(it, inp.dataset.af, inp.value, false); });
+      inp.addEventListener("change", function(){ onAreaDim(it, inp.dataset.af, inp.value, true); });
+    });
+    return tr;
+  }
+  function round1(n){ return Math.round(n*10)/10; }
+  function onAreaDim(item, field, val, commit){
+    var n = parseFloat(val);
+    if(isNaN(n) || n < 2){ if(!commit) return; n = Math.max(2, item[field]); }
+    item[field] = commit ? Math.round(n*2)/2 : n;
+    render(item);
+    if(item.kind === "zone") renderZoneStats();
+    if(commit){ touch(); renderAreaSchedule(); }
+  }
+  function renderAreaSchedule(){
+    var body = document.getElementById("areaSchedBody");
+    if(!body) return;
+    body.innerHTML = "";
+    order.forEach(function(id){
+      var it = state[id];
+      if(it && (it.kind === "zone" || it.kind === "area")) body.appendChild(makeAreaRow(id));
+    });
+  }
+  function renderFixtureList(){
+    var ul = document.getElementById("fixtureList");
+    if(!ul) return;
+    ul.innerHTML = "";
+    order.forEach(function(id){
+      var it = state[id];
+      if(!it || it.kind !== "fixture") return;
+      var li = document.createElement("li");
+      if(id === selectedId) li.className = "active";
+      li.innerHTML = '<span class="sw" style="background:'+it.color+'"></span>'+it.label;
+      li.addEventListener("click", function(){ select(id); });
+      ul.appendChild(li);
+    });
+  }
+
+  // ---- color popover ----
+  var colorPopover = document.getElementById("colorPopover");
+  var colorPopoverTargetId = null;
+  function closeColorPopover(){
+    colorPopover.classList.remove("show");
+    colorPopover.innerHTML = "";
+    colorPopoverTargetId = null;
+  }
+  function applyColor(id, hex){
+    var it = state[id];
+    if(!it) return;
+    it.color = hex;
+    if(it.kind === "zone" || it.kind === "area"){
+      it._el.style.borderColor = hex;
+      it._el.style.background = hexToRgba(hex, 0.13);
+    } else if(it.kind === "fixture"){
+      var g = it._el.querySelector(".dot,.bar");
+      if(g) g.style.background = it.dashed
+        ? "repeating-linear-gradient(" + (it.fx === "hline" ? "90deg" : "0deg") + "," + hex + " 0 5px,transparent 5px 9px)"
+        : hex;
+    } else {
+      it._el.style.background = hex;
+      it._labelEl.style.color = readableTextColor(hex);
+    }
+    touch();
+    renderSchedule();
+  }
+  function openColorPopover(id, rect){
+    colorPopoverTargetId = id;
+    var it = state[id];
+    colorPopover.innerHTML = COLOR_PALETTE.map(function(c){
+      var activeCls = it.color.toLowerCase()===c.toLowerCase() ? " active" : "";
+      return '<button class="chip'+activeCls+'" style="background:'+c+'" data-color="'+c+'" title="'+c+'"></button>';
+    }).join("");
+    colorPopover.style.left = rect.left+"px";
+    colorPopover.style.top = (rect.bottom+6)+"px";
+    colorPopover.classList.add("show");
+    Array.prototype.forEach.call(colorPopover.querySelectorAll(".chip"), function(chip){
+      chip.addEventListener("click", function(e){
+        e.stopPropagation();
+        applyColor(colorPopoverTargetId, chip.dataset.color);
+        closeColorPopover();
+      });
+    });
+  }
+  document.addEventListener("click", function(e){
+    if(colorPopover.classList.contains("show") && !colorPopover.contains(e.target)){
+      closeColorPopover();
+    }
+  });
+
+  // ---- controls ----
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    rebuildAll();
+  });
+
+  // ---- zoom ----
+  var stageEl = document.getElementById("stage");
+  var zoomSlider = document.getElementById("zoomSlider");
+  function applyZoom(){
+    viewZoom = parseFloat(zoomSlider.value) || 1;
+    stageEl.style.transform = "scale("+viewZoom+")";
+    // expand the scroll area of the flex parent to match the scaled size
+    stageEl.style.marginRight = (svgW*(viewZoom-1))+"px";
+    stageEl.style.marginBottom = (svgH*(viewZoom-1))+"px";
+    document.getElementById("zoomVal").textContent = viewZoom.toFixed(1)+"×";
+  }
+  zoomSlider.addEventListener("input", applyZoom);
+  applyZoom();
+
+  // ---- clearance overlay ----
+  document.getElementById("clearanceBtn").addEventListener("click", function(){
+    clearanceActive = !clearanceActive;
+    this.classList.toggle("active", clearanceActive);
+    renderOverlay();
+  });
+
+  // ---- label mode (detailed / presentation) ----
+  function applyLabelMode(){
+    var btn = document.getElementById("labelModeBtn");
+    var present = labelMode === "present";
+    btn.classList.toggle("active", present);
+    btn.textContent = present ? "Editing view" : "Presentation";
+    order.forEach(function(id){ render(state[id]); });
+    renderOverlay();
+  }
+  document.getElementById("labelModeBtn").addEventListener("click", function(){
+    labelMode = (labelMode === "present") ? "detailed" : "present";
+    try { window.localStorage.setItem(LABELMODE_KEY, labelMode); } catch(e){}
+    applyLabelMode();
+  });
+
+  // export the current on-screen layout as a PNG. No external libraries. Avoids <foreignObject>
+  // (which taints the canvas in Chromium): draw the pure-SVG floorplan layer as a plain
+  // non-tainting SVG image, draw the equipment layer directly with Canvas 2D primitives from the
+  // same `state`/`order` data, then draw the labels layer on top, in stacking order.
+  function svgImageFromMarkup(innerMarkup){
+    return new Promise(function(resolve, reject){
+      var styleText = document.querySelector("style").textContent;
+      var markup =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="'+svgW+'" height="'+svgH+'" viewBox="0 0 '+svgW+' '+svgH+'">' +
+        '<style><![CDATA['+styleText+']]></style>' + innerMarkup +
+        '</svg>';
+      var blob = new Blob([markup], {type:"image/svg+xml;charset=utf-8"});
+      var url = URL.createObjectURL(blob);
+      var img = new Image();
+      img.onload = function(){ URL.revokeObjectURL(url); resolve(img); };
+      img.onerror = function(){ URL.revokeObjectURL(url); reject(new Error("SVG layer failed to load")); };
+      img.src = url;
+    });
+  }
+  function roundedRectPath(ctx,x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+  // mirrors buildItemEl()'s core visuals (shape/rotation/color/rounded corners/label) directly
+  // from the same data model, sidestepping the foreignObject restriction above; skips purely
+  // decorative flourishes (tv screen inset, lamp glow, wheels, drawer/shelf lines, bed pillows).
+  // The PNG mirrors the DOM label logic so the exported image matches whichever label mode
+  // (detailed / presentation) is active, plus a legend band underneath.
+  var LEGEND_H = 210;   // px (pre-scale) of legend band added below the plan on export
+  function cssVar(name, fallback){
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+  }
+  function wrapText(ctx, text, maxWidth){
+    var words = String(text).split(/\s+/), lines = [], cur = "";
+    words.forEach(function(w){
+      var trial = cur ? cur + " " + w : w;
+      if(cur && ctx.measureText(trial).width > maxWidth){ lines.push(cur); cur = w; }
+      else cur = trial;
+    });
+    if(cur) lines.push(cur);
+    return lines;
+  }
+
+  // zones / areas / fixtures (drawn under the equipment)
+  function drawAreaLayer(ctx){
+    var fontStack = cssVar("--font-mono", "monospace");
+    var dispStack = cssVar("--font-display", "sans-serif");
+    var inkColor = cssVar("--ink", "#1c1712");
+    var mutedColor = cssVar("--muted", "#6b5f4d");
+    var present = labelMode === "present";
+    order.forEach(function(id){
+      var it = state[id];
+      if(!it) return;
+      if(it.kind === "zone" || it.kind === "area"){
+        var w = FT(it.w), h = FT(it.h), x = X(it.cx) - w/2, y = Y(it.cy) - h/2;
+        ctx.save();
+        ctx.fillStyle = hexToRgba(it.color, 0.13);
+        ctx.fillRect(x, y, w, h);
+        ctx.strokeStyle = it.color; ctx.lineWidth = 2;
+        if(it.kind === "area") ctx.setLineDash([4,3]);
+        ctx.strokeRect(x, y, w, h);
+        ctx.setLineDash([]);
+        // label anchored to the rect's top-left corner (not centred over the equipment)
+        ctx.fillStyle = inkColor;
+        ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+        var lx = x + 6, ly = y + 12;
+        if(present){
+          ctx.font = "700 11px " + dispStack;
+          ctx.fillText(it.kind === "area" ? (it.short || it.name)
+                                          : (it.id + "  " + (it.short || it.name)), lx, ly);
+        } else {
+          ctx.font = "700 10px " + dispStack;
+          ctx.fillText(it.id + " · " + it.name, lx, ly);
+          if(it.kind === "zone"){
+            ctx.fillStyle = mutedColor;
+            ctx.font = "8px " + fontStack;
+            ctx.fillText(Math.round(it.w*it.h).toLocaleString() + " sqft", lx, ly + 11);
+          }
+        }
+        ctx.restore();
+      } else if(it.kind === "fixture"){
+        ctx.save();
+        ctx.fillStyle = it.color;
+        var halfH;
+        if(it.fx === "point"){
+          ctx.beginPath(); ctx.arc(X(it.cx), Y(it.cy), 4, 0, Math.PI*2); ctx.fill();
+          halfH = 4;
+        } else {
+          var lw = it.fx === "hline" ? FT(it.len) : 4, lh = it.fx === "hline" ? 4 : FT(it.len);
+          ctx.fillRect(X(it.cx) - lw/2, Y(it.cy) - lh/2, lw, lh);
+          halfH = lh/2;
+        }
+        // text centred above the marker
+        ctx.fillStyle = mutedColor;
+        ctx.font = "8px " + fontStack;
+        ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+        var flines = wrapText(ctx, present ? (it.short || it.label) : it.label, 92);
+        var fy = Y(it.cy) - halfH - 3;
+        for(var k = flines.length - 1; k >= 0; k--){ ctx.fillText(flines[k], X(it.cx), fy); fy -= 10; }
+        ctx.restore();
+      }
+    });
+  }
+
+  function drawFurnitureLayer(ctx){
+    var strokeColor = cssVar("--furniture-stroke", "#1c1712");
+    var fontStack = cssVar("--font-mono", "monospace");
+    var panelColor = cssVar("--panel", "#f7f1e3");
+    var inkColor = cssVar("--ink", "#1c1712");
+    var present = labelMode === "present";
+    order.forEach(function(id){
+      var item = state[id];
+      if(!item || item.kind) return;
+      var wIn = item.dia || item.w, hIn = item.dia || item.h;
+      var wpx = wIn*PX_PER_IN, hpx = hIn*PX_PER_IN;
+      ctx.save();
+      ctx.translate(X(item.cx), Y(item.cy));
+      ctx.rotate(item.rot*Math.PI/180);
+      ctx.fillStyle = item.color;
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 1.5;
+      if(item.shape==="circle"){
+        ctx.beginPath();
+        ctx.arc(0,0,wpx/2,0,Math.PI*2);
+        ctx.fill(); ctx.stroke();
+      } else {
+        var rx = ROUNDED_IDS.indexOf(item.id)>-1 ? 6 : 0;
+        roundedRectPath(ctx, -wpx/2, -hpx/2, wpx, hpx, rx);
+        ctx.fill(); ctx.stroke();
+      }
+      ctx.fillStyle = readableTextColor(item.color);
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      if(present){
+        ctx.font = "700 12px " + fontStack;
+        ctx.fillText(item.tag != null ? String(item.tag) : "", 0, 0);
+      } else {
+        ctx.font = "10px " + fontStack;
+        var lines = wrapText(ctx, item.label.replace(/\n/g," "), Math.max(wpx + 18, 78));
+        lines.forEach(function(line, i){ ctx.fillText(line, 0, (i-(lines.length-1)/2)*11); });
+      }
+      ctx.restore();
+
+      if(present){
+        // short name below the box (screen space), staggered by left-to-right order in the zone
+        var vExt = (Math.abs(item.rot % 180) === 90) ? wpx : hpx;
+        var mates = order.filter(function(m){ var s = state[m]; return s && !s.kind && s.zone === item.zone; })
+                         .map(function(m){ return state[m]; })
+                         .sort(function(a,b){ return a.cx - b.cx; });
+        var tier = Math.max(0, mates.indexOf(item)) % 3;
+        var bx = X(item.cx), by = Y(item.cy) + vExt/2 + 8 + tier*10;
+        ctx.font = "8px " + fontStack;
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        wrapText(ctx, item.short || item.label.replace(/\n/g," "), 66).forEach(function(line, i){
+          var yy = by + i*9;
+          ctx.lineWidth = 3; ctx.strokeStyle = panelColor; ctx.strokeText(line, bx, yy);
+          ctx.fillStyle = inkColor; ctx.fillText(line, bx, yy);
+        });
+      }
+    });
+  }
+
+  // legend band below the plan so a Presentation-mode export explains itself
+  function fitText(ctx, s, maxPx){
+    if(ctx.measureText(s).width <= maxPx) return s;
+    while(s.length > 1 && ctx.measureText(s + "…").width > maxPx) s = s.slice(0, -1);
+    return s.replace(/\s+$/, "") + "…";
+  }
+  function drawLegend(ctx, top, widthPx){
+    var fontStack = cssVar("--font-mono", "monospace");
+    var dispStack = cssVar("--font-display", "sans-serif");
+    var inkColor = cssVar("--ink", "#1c1712");
+    var mutedColor = cssVar("--muted", "#6b5f4d");
+    var panelColor = cssVar("--panel", "#f7f1e3");
+    var lineColor = cssVar("--line", "#cabf9f");
+    ctx.save();
+    ctx.fillStyle = panelColor;
+    ctx.fillRect(0, top, widthPx, LEGEND_H);
+    ctx.strokeStyle = lineColor; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, top + 0.5); ctx.lineTo(widthPx, top + 0.5); ctx.stroke();
+
+    var padX = 44, y0 = top + 24, eqX = padX + 312;
+    ctx.textBaseline = "alphabetic"; ctx.textAlign = "left";
+
+    // ZONES (left column)
+    ctx.fillStyle = inkColor; ctx.font = "700 12px " + dispStack;
+    ctx.fillText("ZONES", padX, y0);
+    var zy = y0 + 18;
+    ZONE_ORDER.forEach(function(zid){
+      var z = ZONE_BY_ID[zid], live = state[zid];
+      ctx.fillStyle = z.color; ctx.fillRect(padX, zy - 9, 10, 10);
+      ctx.strokeStyle = inkColor; ctx.lineWidth = 0.75; ctx.strokeRect(padX + 0.5, zy - 8.5, 9, 9);
+      ctx.fillStyle = inkColor; ctx.font = "10.5px " + fontStack;
+      var sf = live ? "  " + Math.round(live.w*live.h).toLocaleString() + " sf" : "";
+      ctx.fillText(fitText(ctx, z.id + " — " + z.name, eqX - padX - 74 - 16) + sf, padX + 16, zy);
+      zy += 15;
+    });
+
+    // EQUIPMENT (3 columns), numbered to match the boxes
+    ctx.fillStyle = inkColor; ctx.font = "700 12px " + dispStack;
+    ctx.fillText("EQUIPMENT", eqX, y0);
+    var rows = [];
+    ZONE_ORDER.forEach(function(zid){
+      order.forEach(function(id){ var it = state[id]; if(it && !it.kind && it.zone === zid) rows.push(it); });
+    });
+    order.forEach(function(id){ var it = state[id]; if(it && !it.kind && rows.indexOf(it) === -1) rows.push(it); });
+    var perCol = Math.ceil(rows.length / 3);
+    var colW = (widthPx - eqX - padX) / 3;
+    ctx.font = "9.5px " + fontStack;
+    rows.forEach(function(it, i){
+      var rx = eqX + Math.floor(i / perCol) * colW, ry = y0 + 18 + (i % perCol) * 13;
+      ctx.fillStyle = mutedColor; ctx.fillText(String(it.tag), rx, ry);
+      ctx.fillStyle = inkColor;
+      ctx.fillText(fitText(ctx, it.label.replace(/\n/g, " "), colW - 24), rx + 20, ry);
+    });
+    ctx.restore();
+  }
+
+  function exportPng(){
+    var note = document.getElementById("exportNote");
+    note.textContent = "Exporting…";
+    var scale = 3;
+    var canvas = document.createElement("canvas");
+    canvas.width = svgW*scale;
+    canvas.height = (svgH + LEGEND_H)*scale;
+    var ctx = canvas.getContext("2d");
+    if(!ctx){ note.textContent = "Export failed — couldn't get a 2D canvas context."; return; }
+    ctx.scale(scale, scale);
+    ctx.fillStyle = cssVar("--panel", "#f7f1e3");
+    ctx.fillRect(0, 0, svgW, svgH + LEGEND_H);
+    svgImageFromMarkup(document.getElementById("floorplanSvg").innerHTML)
+      .then(function(baseImg){
+        ctx.drawImage(baseImg, 0, 0);
+        drawAreaLayer(ctx);
+        drawFurnitureLayer(ctx);
+        return svgImageFromMarkup(document.getElementById("labelsSvg").innerHTML);
+      })
+      .then(function(topImg){
+        ctx.drawImage(topImg, 0, 0);
+        drawLegend(ctx, svgH, svgW);
+        canvas.toBlob(function(pngBlob){
+          if(!pngBlob){ note.textContent = "Export failed — canvas.toBlob returned null."; return; }
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(pngBlob);
+          a.download = "seed-facility-layout-" + (labelMode === "present" ? "presentation" : "detailed") + ".png";
+          a.click();
+          note.textContent = "";
+        });
+      })
+      .catch(function(e){
+        console.error("exportPng failed:", e);
+        note.textContent = "Export failed — " + (e && e.message ? e.message : "unknown error");
+      });
+  }
+  document.getElementById("exportPngBtn").addEventListener("click", exportPng);
+
+  // ---- layout save slots ----
+  function renderSlotSelect(){
+    var sel = document.getElementById("slotSelect");
+    var html = "";
+    if(!activeSlotId || !slotById(activeSlotId)){
+      html += '<option value="">— Unsaved —</option>';
+    }
+    slots.forEach(function(s){
+      html += '<option value="'+s.id+'"'+(s.id===activeSlotId?" selected":"")+'>'+
+              s.name.replace(/</g,"&lt;")+'</option>';
+    });
+    sel.innerHTML = html;
+  }
+  function doSaveActiveSlot(){
+    if(!activeSlotId || !slotById(activeSlotId)){
+      doSaveAsNewSlot();
+      return;
+    }
+    var s = slotById(activeSlotId);
+    var snap = currentSnapshot();
+    s.items = snap.items;
+    saveSlotsData();
+    dirty = false;
+    updateDirtyIndicator();
+  }
+  function doSaveAsNewSlot(){
+    var name = window.prompt("Name this layout:", "Layout "+(slots.length+1));
+    if(!name) return;
+    var snap = currentSnapshot();
+    var s = {id:"slot-"+Date.now(), name:name, items:snap.items};
+    slots.push(s);
+    activeSlotId = s.id;
+    saveSlotsData();
+    dirty = false;
+    updateDirtyIndicator();
+    renderSlotSelect();
+  }
+  function doDeleteSlot(){
+    if(!activeSlotId || !slotById(activeSlotId)) return;
+    var s = slotById(activeSlotId);
+    if(!window.confirm('Delete layout "'+s.name+'"? This can\'t be undone.')) return;
+    slots = slots.filter(function(x){ return x.id!==activeSlotId; });
+    activeSlotId = null;
+    saveSlotsData();
+    renderSlotSelect();
+  }
+  function doLoadSlot(id){
+    if(id === (activeSlotId||"")) return;
+    if(id){
+      if(dirty && !window.confirm("You have unsaved changes that will be lost. Load this layout anyway?")){
+        renderSlotSelect();
+        return;
+      }
+      var s = slotById(id);
+      if(!s){ renderSlotSelect(); return; }
+      activeSlotId = id;
+      applySnapshotToState({items:s.items});
+    } else {
+      activeSlotId = null;
+    }
+    dirty = false;
+    updateDirtyIndicator();
+    saveSlotsData();
+    renderSlotSelect();
+  }
+  document.getElementById("slotSelect").addEventListener("change", function(e){ doLoadSlot(e.target.value); });
+  document.getElementById("saveSlotBtn").addEventListener("click", doSaveActiveSlot);
+  document.getElementById("saveAsSlotBtn").addEventListener("click", doSaveAsNewSlot);
+  document.getElementById("deleteSlotBtn").addEventListener("click", doDeleteSlot);
+
+  // ---- initial load: restore the active saved slot, if any, else factory defaults ----
+  seedPresetSlots();
+  var startupSlot = activeSlotId ? slotById(activeSlotId) : null;
+  if(!startupSlot) activeSlotId = null;
+  applySnapshotToState(startupSlot ? {items:startupSlot.items} : {items:{}});
+  renderSlotSelect();
+  updateDirtyIndicator();
+  applyLabelMode();   // reflect the persisted label mode on the button + canvas
+})();
+</script>
